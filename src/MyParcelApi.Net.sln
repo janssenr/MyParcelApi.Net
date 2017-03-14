@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyParcelApi.Net", "MyParcelApi.Net\MyParcelApi.Net.csproj", "{974F1332-0890-4A16-8C6F-70F40A1873CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyParcelApi.Tests", "MyParcelApi.Tests\MyParcelApi.Tests.csproj", "{EF32072F-E807-4AD7-9623-B1B8D18C08DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{974F1332-0890-4A16-8C6F-70F40A1873CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974F1332-0890-4A16-8C6F-70F40A1873CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974F1332-0890-4A16-8C6F-70F40A1873CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974F1332-0890-4A16-8C6F-70F40A1873CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF32072F-E807-4AD7-9623-B1B8D18C08DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF32072F-E807-4AD7-9623-B1B8D18C08DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF32072F-E807-4AD7-9623-B1B8D18C08DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF32072F-E807-4AD7-9623-B1B8D18C08DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

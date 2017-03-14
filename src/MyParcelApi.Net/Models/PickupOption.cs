@@ -1,0 +1,51 @@
+﻿using System;
+using System.Runtime.Serialization;
+
+namespace MyParcelApi.Net.Models
+{
+    [DataContract]
+    public class PickupOption
+    {
+        [DataMember(Name = "date", EmitDefaultValue = false)]
+        public string Date { get; set; }
+
+        [DataMember(Name = "time", EmitDefaultValue = false)]
+        public PickupOptionTime[] Times { get; set; }
+
+        [DataMember(Name = "location", EmitDefaultValue = false)]
+        public string Location { get; set; }
+
+        [DataMember(Name = "street", EmitDefaultValue = false)]
+        public string Street { get; set; }
+
+        [DataMember(Name = "number", EmitDefaultValue = false)]
+        public string Number { get; set; }
+
+        [DataMember(Name = "postal_code", EmitDefaultValue = false)]
+        public string PostalCode { get; set; }
+
+        [DataMember(Name = "start_time", EmitDefaultValue = false)]
+        public string StartTime { get; set; }
+
+        [DataMember(Name = "price", EmitDefaultValue = false)]
+        public int Price { get; set; }
+
+        [DataMember(Name = "price_comment", EmitDefaultValue = false)]
+        public string PriceComment { get; set; }
+
+        [DataMember(Name = "comment", EmitDefaultValue = false)]
+        public string Comment { get; set; }
+
+        [DataMember(Name = "phone_number", EmitDefaultValue = false)]
+        public string PhoneNumber { get; set; }
+
+        [DataMember(Name = "opening_hours", EmitDefaultValue = false)]
+        public OpeningHours OpeningHours { get; set; }
+
+        [DataMember(Name = "distance", EmitDefaultValue = false)]
+        public string Distance { get; set; }
+
+        [DataMember(Name = "location_code", EmitDefaultValue = false)]
+        public string LocationCode { get; set; }
+    }
+}
