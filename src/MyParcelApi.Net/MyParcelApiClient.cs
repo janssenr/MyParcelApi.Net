@@ -396,7 +396,7 @@ namespace MyParcelApi.Net
 
 
         /// <summary>
-        /// Use this endpoint to delete webhook subscriptions. You specify multiple subscription ids 
+        /// Use this function to delete webhook subscriptions. You specify multiple subscription ids 
         /// </summary>
         /// <param name="ids"></param>
         /// <returns>This method returns true if successful.</returns>
