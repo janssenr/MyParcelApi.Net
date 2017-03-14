@@ -12,7 +12,7 @@ Install-Package MyParcelApi
 
 # Getting started
 Just create a new `MyParcelApiClient` with your own API key.
-API keys are available on [MyParcel.nl](https://www.myparcel.nl/) check the API documentation [here](https://myparcelnl.github.io/api/)
+API keys are available on [MyParcel.nl](https://www.myparcel.nl/). Check the API documentation [here](https://myparcelnl.github.io/api/)
 
 ```
 var client = new MyParcelApiClient("FILL IN KEY HERE");
