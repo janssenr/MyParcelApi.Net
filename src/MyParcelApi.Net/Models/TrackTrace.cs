@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace MyParcelApi.Net.Models
 {
@@ -18,7 +19,7 @@ namespace MyParcelApi.Net.Models
         public string Description { get; set; }
 
         [DataMember(Name = "time", EmitDefaultValue = false)]
-        public string Time { get; set; }
+        public DateTime? Time { get; set; }
 
         [DataMember(Name = "history", EmitDefaultValue = false)]
         public TrackTraceHistory[] History { get; set; }

@@ -52,8 +52,8 @@ namespace MyParcelApi.Net
             var content = new StringContent(JsonHelper.Serialize(apiWrapper));
             content.Headers.Clear();
             content.Headers.Add("Content-Type", "application/vnd.shipment+json;charset=utf-8");
-            var response = await _httpClient.PostAsync("shipments", content);
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.PostAsync("shipments", content).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Ids;
@@ -68,7 +68,7 @@ namespace MyParcelApi.Net
         /// <returns>Array of ShipmentIds is returned. The ids in the ShipmentIds array will be in the same order they where sent.</returns>
         public async Task<ObjectId[]> AddReturnShipment(ReturnShipment[] returnShipments)
         {
-            return await AddReturnShipment(returnShipments, false);
+            return await AddReturnShipment(returnShipments, false).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace MyParcelApi.Net
         /// <returns>Array of ShipmentIds is returned. The ids in the ShipmentIds array will be in the same order they where sent.</returns>
         public async Task<ObjectId[]> AddUnrelatedReturnShipment(ReturnShipment[] returnShipments)
         {
-            return await AddReturnShipment(returnShipments, true);
+            return await AddReturnShipment(returnShipments, true).ConfigureAwait(false);
         }
 
         private async Task<ObjectId[]> AddReturnShipment(ReturnShipment[] returnShipments, bool unrelated)
@@ -93,8 +93,8 @@ namespace MyParcelApi.Net
             var content = new StringContent(JsonHelper.Serialize(apiWrapper));
             content.Headers.Clear();
             content.Headers.Add("Content-Type", $"application/vnd.{(unrelated ? "unrelated_" : string.Empty)}return_shipment+json; charset=utf-8");
-            var response = await _httpClient.PostAsync("shipments", content);
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.PostAsync("shipments", content).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Ids;
@@ -109,7 +109,7 @@ namespace MyParcelApi.Net
         /// <returns>This method returns true if successful.</returns>
         public async Task<bool> DeleteShipment(int[] ids)
         {
-            var response = await _httpClient.DeleteAsync("shipments/" + string.Join(";", ids));
+            var response = await _httpClient.DeleteAsync("shipments/" + string.Join(";", ids)).ConfigureAwait(false);
             return response.IsSuccessStatusCode;
         }
 
@@ -120,8 +120,8 @@ namespace MyParcelApi.Net
         public async Task<DownloadUrl> GenerateUnrelatedReturnShipment()
         {
             var content = new StringContent(string.Empty);
-            var response = await _httpClient.PostAsync("return_shipments", content);
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.PostAsync("return_shipments", content).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.DownloadUrl;
@@ -181,8 +181,8 @@ namespace MyParcelApi.Net
                 parameters.Add("to", to.Value.ToString("yyyy-MM-dd"));
             urlBuilder.Append(GetQueryString(parameters));
 
-            var response = await _httpClient.GetAsync(urlBuilder.ToString());
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Shipments;
@@ -215,16 +215,16 @@ namespace MyParcelApi.Net
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/pdf"));
 
-            var response = await _httpClient.GetAsync(urlBuilder.ToString());
-            var result = await response.Content.ReadAsStringAsync();
-            var stream = await response.Content.ReadAsStreamAsync();
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return stream;
             }
             return null;
 
-            //var data = await _httpClient.GetByteArrayAsync(urlBuilder.ToString());
+            //var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            //var data = await _httpClient.GetByteArrayAsync(urlBuilder.ToString()).ConfigureAwait(false);
             //return data;
             //return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Shipments;
         }
@@ -253,8 +253,8 @@ namespace MyParcelApi.Net
             _httpClient.DefaultRequestHeaders.Accept.Clear();
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var response = await _httpClient.GetAsync(urlBuilder.ToString());
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.DownloadLink;
@@ -300,8 +300,8 @@ namespace MyParcelApi.Net
                 parameters.Add("order", order);
             urlBuilder.Append(GetQueryString(parameters));
 
-            var response = await _httpClient.GetAsync(urlBuilder.ToString());
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.TrackTraces;
@@ -360,8 +360,8 @@ namespace MyParcelApi.Net
                 parameters.Add("exclude_delivery_type", string.Join(";", excludeDeliveryType.Select(edt => (int)edt)));
             urlBuilder.Append(GetQueryString(parameters));
 
-            var response = await _httpClient.GetAsync(urlBuilder.ToString());
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data;
@@ -386,7 +386,7 @@ namespace MyParcelApi.Net
             var content = new StringContent(JsonHelper.Serialize(apiWrapper));
             content.Headers.Clear();
             content.Headers.Add("Content-Type", "application/json;charset=utf-8");
-            var response = await _httpClient.PostAsync("webhook_subscriptions", content);
+            var response = await _httpClient.PostAsync("webhook_subscriptions", content).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(response.Content.ReadAsStringAsync().Result).Data.Ids;
@@ -402,7 +402,7 @@ namespace MyParcelApi.Net
         /// <returns>This method returns true if successful.</returns>
         public async Task<bool> DeleteSubscription(int[] ids)
         {
-            var response = await _httpClient.DeleteAsync("webhook_subscriptions/" + string.Join(";", ids));
+            var response = await _httpClient.DeleteAsync("webhook_subscriptions/" + string.Join(";", ids)).ConfigureAwait(false);
             return response.IsSuccessStatusCode;
         }
 
@@ -410,25 +410,16 @@ namespace MyParcelApi.Net
         /// Use this function to fetch webhook subscriptions. You can also filter by account and shop id that you have access to.
         /// </summary>
         /// <param name="ids">This is the susbcription id. You can specify multiple subscription ids.</param>
-        /// <param name="accountId">The account id to which this subscription belongs.</param>
-        /// <param name="shopId">The shop id to which this subscription belongs.</param>
         /// <returns>Upon success an array of Subscription objects is returned. </returns>
-        public async Task<Subscription[]> GetSubscription(int[] ids, int? accountId = null, int? shopId = null)
+        public async Task<Subscription[]> GetSubscription(int[] ids)
         {
             var urlBuilder = new StringBuilder("webhook_subscriptions/");
 
             if (ids != null && ids.Length > 0)
                 urlBuilder.Append($"{string.Join(";", ids)}");
 
-            var parameters = new Dictionary<string, string>();
-            if (accountId.HasValue)
-                parameters.Add("account_id", accountId.Value.ToString());
-            if (shopId.HasValue)
-                parameters.Add("shop_id", shopId.Value.ToString());
-            urlBuilder.Append(GetQueryString(parameters));
-
-            var response = await _httpClient.GetAsync(urlBuilder.ToString());
-            var jsonResult = await response.Content.ReadAsStringAsync();
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.WebhookSubscriptions;

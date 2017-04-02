@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace MyParcelApi.Net.Models
 {
@@ -14,6 +13,5 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "price", EmitDefaultValue = false)]
         public Price Price { get; set; }
-
     }
 }
