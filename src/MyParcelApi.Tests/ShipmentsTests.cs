@@ -498,11 +498,10 @@ namespace MyParcelApi.Tests
         [Test]
         public void GetShipmentLabel()
         {
-            var response = _client.GetShipmentLabel(new[] {21811070, 21810315}, "A4", new[] {3, 4});
+            var response = _client.GetShipmentLabel(new[] { 21811070, 21810315 }, "A4", new[] { 3, 4 });
             response.Wait();
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Result);
-            Assert.IsTrue(response.Result.Length > 0);
         }
 
         [Test]
@@ -571,12 +570,10 @@ namespace MyParcelApi.Tests
 
         private void CreateLabels(int[] shipmentIds)
         {
-            foreach (var shipmentId in shipmentIds)
-            {
-                var downloadLink = _client.GetShipmentLabelDownloadLink(new[] { shipmentId });
-                downloadLink.Wait();
-                Assert.AreEqual(true, downloadLink.Result.Url.StartsWith("/pdfs/"));
-            }
+            var response = _client.GetShipmentLabelDownloadLink(shipmentIds);
+            response.Wait();
+            Assert.IsNotNull(response);
+            Assert.IsNotNull(response.Result);
         }
 
         private void ValidateShipments(int[] shipmentIds, List<Shipment> conceptShipments, bool validateLabel)

@@ -196,9 +196,8 @@ namespace MyParcelApi.Net
         /// <param name="ids">This is the shipment id. You can specify multiple shipment ids by semi-colon separating them on the URI.</param>
         /// <param name="format">The paper size of the PDF. Currently A4 and A6 are supported. When A4 is chosen you can specify the label position. When requesting the label for a shipment that contains a custom form, you can only request a A4 format.</param>
         /// <param name="positions">The position of the label on an A4 sheet. You can specify multiple positions by semi-colon separating them on the URI. Positioning is only applied on the first page with labels. All subsequent pages will use the default positioning 1,2,3,4.</param>
-        /// <returns>Shipment label PDF</returns>
-        public async Task<Stream> GetShipmentLabel(int[] ids, string format = "", int[] positions = null)
-        //public async void GetShipmentLabel(int[] ids = null, string format = "", int[] positions = null)
+        /// <returns>Shipment label PDF or PaymentInstructions (when payment is required)</returns>
+        public async Task<object> GetShipmentLabel(int[] ids, string format = "", int[] positions = null)
         {
             var urlBuilder = new StringBuilder("shipment_labels/");
 
@@ -217,11 +216,12 @@ namespace MyParcelApi.Net
 
             var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
             var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 return stream;
             }
-            return null;
+            return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.PaymentInstructions;
 
             //var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             //var data = await _httpClient.GetByteArrayAsync(urlBuilder.ToString()).ConfigureAwait(false);
@@ -235,8 +235,8 @@ namespace MyParcelApi.Net
         /// <param name="ids">This is the shipment id. You can specify multiple shipment ids by semi-colon separating them on the URI.</param>
         /// <param name="format">The paper size of the PDF. Currently A4 and A6 are supported. When A4 is chosen you can specify the label position. When requesting the label for a shipment that contains a custom form, you can only request a A4 format.</param>
         /// <param name="positions">The position of the label on an A4 sheet. You can specify multiple positions by semi-colon separating them on the URI. Positioning is only applied on the first page with labels. All subsequent pages will use the default positioning 1,2,3,4.</param>
-        /// <returns>Shipment label PDF</returns>
-        public async Task<ShipmentLabelDownloadLink> GetShipmentLabelDownloadLink(int[] ids, string format = "", int[] positions = null)
+        /// <returns>ShipmentLabelDownloadLink or PaymentInstructions (when payment is required)</returns>
+        public async Task<object> GetShipmentLabelDownloadLink(int[] ids, string format = "", int[] positions = null)
         {
             var urlBuilder = new StringBuilder("shipment_labels/");
 
@@ -259,7 +259,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.DownloadLink;
             }
-            return null;
+            return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.PaymentInstructions;
         }
 
         /// <summary>
@@ -320,13 +320,14 @@ namespace MyParcelApi.Net
         /// <param name="deliveryDate">The date on which the package has to be delivered.</param>
         /// <param name="cutoffTime">This option allows the Merchant to indicate the latest cut-off time before which a consumer order will still be picked, packed and dispatched on the same/first set dropoff day, taking into account the dropoff-delay. Default time is 15h30. For example, if cutoff time is 15h30, Monday is a delivery day and there's no delivery delay; all orders placed Monday before 15h30 will be dropped of at PostNL on that same Monday in time for the Monday collection.</param>
         /// <param name="dropoffDays">This options allows the Merchant to set the days she normally goes to PostNL to hand in her parcels. By default Saturday and Sunday are excluded.</param>
+        /// <param name="mondayDelivery">Monday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click here for more information concerning Monday delivery and the locations. Note: To activate Monday delivery, value 6 must be given with dropoff_days, value 1 must be given by monday_delivery.And on Saturday the cutoff_time must be before 15:00 (14:30 recommended) so that Monday will be shown.</param>
         /// <param name="dropoffDelay">This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time. By default this is 0 and max is 14.</param>
         /// <param name="deliverydaysWindow">This options allows the Merchant to set the number of days into the future for which she wants to show her consumers delivery options. For example, if set to 3 in her check-out, a consumer ordering on Monday will see possible delivery options for Tuesday, Wednesday and Thursday (provided there is no drop-off delay, it's before the cut-off time and she goes to PostNL on Mondays). Min is 1. and max. is 14.</param>
         /// <param name="excludeDeliveryType">This options allows the Merchant to exclude delivery types from the available delivery options. You can specify multiple delivery types by semi-colon separating them. The standard delivery type cannot be excluded.</param>
         /// <returns>Upon success two arrays are returned one for DeliveryOptions and one for PickupOptions objects is returned. This object contains delivery date, time and pricing. Upon error an Error object is returned.</returns>
         public async Task<DataWrapper> GetDeliveryOptions(string countryCode, string postalCode, string number,
             Carrier carier, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
-            DayOfWeek[] dropoffDays = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
+            DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
             DeliveryType[] excludeDeliveryType = null)
         {
             if (dropoffDelay.HasValue && (dropoffDelay.Value < 0 || dropoffDelay.Value > 14))
@@ -352,6 +353,8 @@ namespace MyParcelApi.Net
                 parameters.Add("cutoff_time", cutoffTime.Value.ToString(@"hh\:mm\:ss"));
             if (dropoffDays != null && dropoffDays.Length > 0)
                 parameters.Add("dropoff_days", string.Join(";", dropoffDays.Select(dd => (int)dd)));
+            if (mondayDelivery.HasValue)
+                parameters.Add("monday_delivery", Convert.ToInt32(mondayDelivery.Value).ToString());
             if (dropoffDelay.HasValue)
                 parameters.Add("dropoff_delay", dropoffDelay.Value.ToString());
             if (deliverydaysWindow.HasValue)
@@ -366,7 +369,9 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data;
             }
-            return null;
+            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
+            var message = string.Join("\n", errors.Select(obj => obj.Message));
+            throw new Exception(message);
         }
 
         /// <summary>

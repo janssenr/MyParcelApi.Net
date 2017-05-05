@@ -2,7 +2,7 @@
 {
     public enum ShipmentType
     {
-        PakketNl = 1,
-        RetourNl = 2
+        Pakket = 1,
+        Retour = 2
     }
 }

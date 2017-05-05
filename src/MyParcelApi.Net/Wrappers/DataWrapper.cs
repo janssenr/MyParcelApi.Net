@@ -18,6 +18,9 @@ namespace MyParcelApi.Net.Wrappers
         [DataMember(Name = "tracktraces", EmitDefaultValue = false)]
         public TrackTrace[] TrackTraces { get; set; }
 
+        [DataMember(Name = "payment_instructions", EmitDefaultValue = false)]
+        public PaymentInstruction[] PaymentInstructions { get; set; }
+
         [DataMember(Name = "delivery", EmitDefaultValue = false)]
         public DeliveryOption[] DeliveryOptions { get; set; }
 
@@ -44,5 +47,8 @@ namespace MyParcelApi.Net.Wrappers
 
         [DataMember(Name = "size", EmitDefaultValue = false)]
         public int Size { get; set; }
+
+        [DataMember(Name = "message", EmitDefaultValue = false)]
+        public string Message { get; set; }
     }
 }

@@ -15,13 +15,10 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "shop_id", EmitDefaultValue = false)]
         public int ShopId { get; set; }
 
-        [DataMember(Name = "barcode", EmitDefaultValue = false)]
-        public string Barcode { get; set; }
-
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public ShipmentStatus Status { get; set; }
 
-        [DataMember(Name = "date", EmitDefaultValue = false)]
-        public DateTime? Date { get; set; }
+        [DataMember(Name = "barcode", EmitDefaultValue = false)]
+        public string Barcode { get; set; }
     }
 }

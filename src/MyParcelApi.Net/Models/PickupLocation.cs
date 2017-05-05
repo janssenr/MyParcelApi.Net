@@ -19,6 +19,5 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "street", EmitDefaultValue = false)]
         public string Street { get; set; }
-
     }
 }
