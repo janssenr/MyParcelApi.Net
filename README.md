@@ -249,7 +249,7 @@ foreach (var subscriptionId in subscriptionIds)
 ```
 
 ## DeleteSubscription
-Use this function to delete webhook subscriptions. You specify multiple subscription ids 
+Use this function to delete webhook subscriptions. You can specify multiple subscription ids.
 
 ```
 var success = await client.DeleteSubscription(new[] { 1 });
