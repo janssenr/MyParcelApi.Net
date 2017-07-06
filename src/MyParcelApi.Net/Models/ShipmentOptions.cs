@@ -18,13 +18,15 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "delivery_remark", EmitDefaultValue = false, IsRequired = false)]
         public string DeliveryRemark { get; set; }
 
+        [DataMember(Name = "only_recipient", EmitDefaultValue = false, IsRequired = false)]
+        private int? _onlyRecipientRaw;
         [IgnoreDataMember]
         public bool? OnlyRecipient {
             get
             {
-                if (OnlyRecipientRaw.HasValue)
+                if (_onlyRecipientRaw.HasValue)
                 {
-                    return Convert.ToBoolean(OnlyRecipientRaw);
+                    return Convert.ToBoolean(_onlyRecipientRaw);
                 }
                 return null;
             }
@@ -32,25 +34,25 @@ namespace MyParcelApi.Net.Models
             {
                 if (value.HasValue)
                 {
-                    OnlyRecipientRaw = Convert.ToInt32(value);
+                    _onlyRecipientRaw = Convert.ToInt32(value);
                 }
                 else
                 {
-                    OnlyRecipientRaw = null;
+                    _onlyRecipientRaw = null;
                 }
             }
         }
-        [DataMember(Name = "only_recipient", EmitDefaultValue = false, IsRequired = false)]
-        public int? OnlyRecipientRaw { get; private set; }
 
+        [DataMember(Name = "signature", EmitDefaultValue = false, IsRequired = false)]
+        private int? _signatureRaw;
         [IgnoreDataMember]
         public bool? Signature
         {
             get
             {
-                if (SignatureRaw.HasValue)
+                if (_signatureRaw.HasValue)
                 {
-                    return Convert.ToBoolean(SignatureRaw);
+                    return Convert.ToBoolean(_signatureRaw);
                 }
                 return null;
             }
@@ -58,25 +60,25 @@ namespace MyParcelApi.Net.Models
             {
                 if (value.HasValue)
                 {
-                    SignatureRaw = Convert.ToInt32(value);
+                    _signatureRaw = Convert.ToInt32(value);
                 }
                 else
                 {
-                    SignatureRaw = null;
+                    _signatureRaw = null;
                 }
             }
         }
-        [DataMember(Name = "signature", EmitDefaultValue = false, IsRequired = false)]
-        public int? SignatureRaw { get; private set; }
 
+        [DataMember(Name = "return", EmitDefaultValue = false, IsRequired = false)]
+        private int? _returnRaw;
         [IgnoreDataMember]
         public bool? Return
         {
             get
             {
-                if (ReturnRaw.HasValue)
+                if (_returnRaw.HasValue)
                 {
-                    return Convert.ToBoolean(ReturnRaw);
+                    return Convert.ToBoolean(_returnRaw);
                 }
                 return null;
             }
@@ -84,28 +86,28 @@ namespace MyParcelApi.Net.Models
             {
                 if (value.HasValue)
                 {
-                    ReturnRaw = Convert.ToInt32(value);
+                    _returnRaw = Convert.ToInt32(value);
                 }
                 else
                 {
-                    ReturnRaw = null;
+                    _returnRaw = null;
                 }
             }
         }
-        [DataMember(Name = "return", EmitDefaultValue = false, IsRequired = false)]
-        public int? ReturnRaw { get; set; }
 
         [DataMember(Name = "insurance", EmitDefaultValue = false, IsRequired = false)]
         public Price Insurance { get; set; }
 
+        [DataMember(Name = "large_format", EmitDefaultValue = false, IsRequired = false)]
+        private int? _largeFormatRaw;
         [IgnoreDataMember]
         public bool? LargeFormat
         {
             get
             {
-                if (LargeFormatRaw.HasValue)
+                if (_largeFormatRaw.HasValue)
                 {
-                    return Convert.ToBoolean(LargeFormatRaw);
+                    return Convert.ToBoolean(_largeFormatRaw);
                 }
                 return null;
             }
@@ -113,25 +115,25 @@ namespace MyParcelApi.Net.Models
             {
                 if (value.HasValue)
                 {
-                    LargeFormatRaw = Convert.ToInt32(value);
+                    _largeFormatRaw = Convert.ToInt32(value);
                 }
                 else
                 {
-                    LargeFormatRaw = null;
+                    _largeFormatRaw = null;
                 }
             }
         }
-        [DataMember(Name = "large_format", EmitDefaultValue = false, IsRequired = false)]
-        public int? LargeFormatRaw { get; set; }
 
+        [DataMember(Name = "cooled_delivery", EmitDefaultValue = false, IsRequired = false)]
+        private int? _cooledDeliveryRaw;
         [IgnoreDataMember]
         public bool? CooledDelivery
         {
             get
             {
-                if (CooledDeliveryRaw.HasValue)
+                if (_cooledDeliveryRaw.HasValue)
                 {
-                    return Convert.ToBoolean(CooledDeliveryRaw);
+                    return Convert.ToBoolean(_cooledDeliveryRaw);
                 }
                 return null;
             }
@@ -139,16 +141,14 @@ namespace MyParcelApi.Net.Models
             {
                 if (value.HasValue)
                 {
-                    CooledDeliveryRaw = Convert.ToInt32(value);
+                    _cooledDeliveryRaw = Convert.ToInt32(value);
                 }
                 else
                 {
-                    CooledDeliveryRaw = null;
+                    _cooledDeliveryRaw = null;
                 }
             }
         }
-        [DataMember(Name = "cooled_delivery", EmitDefaultValue = false, IsRequired = false)]
-        public int? CooledDeliveryRaw { get; set; }
 
         [DataMember(Name = "label_description", EmitDefaultValue = false, IsRequired = false)]
         public string LabelDescription { get; set; }

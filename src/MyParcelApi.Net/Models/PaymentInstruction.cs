@@ -27,20 +27,20 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "payment_url", EmitDefaultValue = false)]
         public string PaymentUrl { get; set; }
 
+        [DataMember(Name = "paid", EmitDefaultValue = false)]
+        private int _paidRaw;
         [IgnoreDataMember]
         public bool Paid
         {
             get
             {
-                return Convert.ToBoolean(PaidRaw);
+                return Convert.ToBoolean(_paidRaw);
             }
             set
             {
-                PaidRaw = Convert.ToInt32(value);
+                _paidRaw = Convert.ToInt32(value);
             }
         }
-        [DataMember(Name = "paid", EmitDefaultValue = false)]
-        public int PaidRaw { get; private set; }
 
         [DataMember(Name = "price", EmitDefaultValue = false)]
         public Price Price { get; set; }

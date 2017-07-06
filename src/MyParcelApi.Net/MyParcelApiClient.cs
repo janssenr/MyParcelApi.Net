@@ -58,7 +58,9 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Ids;
             }
-            return null;
+            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
+            var message = string.Join("\n", errors.Select(obj => string.Join("\n", obj.Human)));
+            throw new Exception(message);
         }
 
         /// <summary>

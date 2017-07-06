@@ -257,7 +257,7 @@ Console.WriteLine(success);
 ```
 
 ## GetSubscription
-Use this function to fetch webhook subscriptions. You can also filter by account and shop id that you have access to.
+Use this function to fetch webhook subscriptions.
 
 ```
 var susbcriptions = await client.GetSubscription(new[] { 1 });

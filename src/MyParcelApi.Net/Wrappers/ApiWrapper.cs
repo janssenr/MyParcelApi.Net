@@ -11,5 +11,8 @@ namespace MyParcelApi.Net.Wrappers
 
         [DataMember(Name = "errors", EmitDefaultValue = false)]
         public Error[] Errors { get; set; }
+
+        [DataMember(Name = "message", EmitDefaultValue = false)]
+        public string Message { get; set; }
     }
 }

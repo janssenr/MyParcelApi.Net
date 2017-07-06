@@ -28,7 +28,7 @@ namespace MyParcelApi.Net.Models
         public Address Recipient { get; set; }
 
         [DataMember(Name = "sender", EmitDefaultValue = false)]
-        public Address Sender { get; set; }
+        public Address Sender { get; private set; }
 
         [DataMember(Name = "status", EmitDefaultValue = false, IsRequired = false)]
         public ShipmentStatus Status { get; set; }
@@ -60,8 +60,7 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "modified", EmitDefaultValue = false)]
         public DateTime Modified { get; set; }
 
-        [DataMember(Name = "region", EmitDefaultValue = false)]
-        public string Region { get; set; }
-
+        [DataMember(Name = "reference_identifier", EmitDefaultValue = false)]
+        public string ReferenceIdentifier { get; set; }
     }
 }

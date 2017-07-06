@@ -8,6 +8,9 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "cc", EmitDefaultValue = false, IsRequired = true)]
         public string Country { get; set; }
 
+        [DataMember(Name = "region", EmitDefaultValue = false, IsRequired = false)]
+        public string Region { get; set; }
+
         [DataMember(Name = "postal_code", EmitDefaultValue = false, IsRequired = false)]
         public string PostalCode { get; set; }
 
