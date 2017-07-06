@@ -257,7 +257,7 @@ Console.WriteLine(success);
 ```
 
 ## GetSubscription
-Use this function to fetch webhook subscriptions.
+Use this function to fetch webhook subscriptions. You can specify multiple subscription ids.
 
 ```
 var susbcriptions = await client.GetSubscription(new[] { 1 });
