@@ -31,8 +31,8 @@ namespace MyParcelApi.Net
                 BaseAddress = new Uri(ApiBaseUrl)
             };
 
-            _httpClient.DefaultRequestHeaders.Add("Authorization",
-                $"basic {Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey))}");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"basic {Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey))}");
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", "CustomApiCall/2");
         }
 
         /// <summary>
