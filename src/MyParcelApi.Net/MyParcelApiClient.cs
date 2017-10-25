@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -330,7 +331,7 @@ namespace MyParcelApi.Net
         public async Task<DataWrapper> GetDeliveryOptions(string countryCode, string postalCode, string number,
             Carrier carier, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
             DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
-            DeliveryType[] excludeDeliveryType = null)
+            DeliveryType[] excludeDeliveryType = null, double? latitude = null, double? longitude = null)
         {
             if (dropoffDelay.HasValue && (dropoffDelay.Value < 0 || dropoffDelay.Value > 14))
                 throw new ArgumentOutOfRangeException("Parameter dropoffDays must be between 0 and 14");
@@ -363,6 +364,10 @@ namespace MyParcelApi.Net
                 parameters.Add("deliverydays_window", deliverydaysWindow.Value.ToString());
             if (excludeDeliveryType != null && excludeDeliveryType.Length > 0)
                 parameters.Add("exclude_delivery_type", string.Join(";", excludeDeliveryType.Select(edt => (int)edt)));
+            if (latitude.HasValue)
+                parameters.Add("latitude", latitude.Value.ToString(CultureInfo.InvariantCulture));
+            if (longitude.HasValue)
+                parameters.Add("longitude", longitude.Value.ToString(CultureInfo.InvariantCulture));
             urlBuilder.Append(GetQueryString(parameters));
 
             var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
