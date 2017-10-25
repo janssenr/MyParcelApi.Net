@@ -45,7 +45,16 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "distance", EmitDefaultValue = false)]
         public string Distance { get; set; }
 
+        [DataMember(Name = "latitude", EmitDefaultValue = false)]
+        public string Latitude { get; set; }
+
+        [DataMember(Name = "longitude", EmitDefaultValue = false)]
+        public string Longitude { get; set; }
+
         [DataMember(Name = "location_code", EmitDefaultValue = false)]
         public string LocationCode { get; set; }
+
+        [DataMember(Name = "retail_network_id", EmitDefaultValue = false)]
+        public string RetailNetworkId { get; set; }
     }
 }
