@@ -6,9 +6,6 @@ namespace MyParcelApi.Net.Models
     [DataContract]
     public class Shipment
     {
-        [DataMember(Name = "barcode", EmitDefaultValue = false)]
-        public string Barcode { get; set; }
-
         [DataMember(Name = "id", EmitDefaultValue = false, IsRequired = false)]
         public int Id { get; set; }
 
@@ -36,6 +33,9 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "options", EmitDefaultValue = false, IsRequired = true)]
         public ShipmentOptions Options { get; set; }
 
+        [DataMember(Name = "general_settings", EmitDefaultValue = false, IsRequired = false)]
+        public ShipmentGeneralSettings GeneralSettings { get; set; }
+
         [DataMember(Name = "pickup", EmitDefaultValue = false, IsRequired = false)]
         public PickupLocation Pickup { get; set; }
 
@@ -48,12 +48,6 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "carrier", EmitDefaultValue = false, IsRequired = false)]
         public Carrier Carrier { get; set; }
 
-        [DataMember(Name = "general_settings", EmitDefaultValue = false, IsRequired = false)]
-        public ShipmentGeneralSettings GeneralSettings { get; set; }
-
-        [DataMember(Name = "price", EmitDefaultValue = false)]
-        public Price Price { get; set; }
-
         [DataMember(Name = "created", EmitDefaultValue = false)]
         public DateTime Created { get; set; }
 
@@ -62,5 +56,26 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "reference_identifier", EmitDefaultValue = false)]
         public string ReferenceIdentifier { get; set; }
+
+        [DataMember(Name = "created_by", EmitDefaultValue = false)]
+        public string CreatedBy { get; set; }
+
+        [DataMember(Name = "modified_by", EmitDefaultValue = false)]
+        public string ModifiedBy { get; set; }
+
+        [DataMember(Name = "transaction_status", EmitDefaultValue = false)]
+        public string TransactionStatus { get; set; }
+
+        [DataMember(Name = "barcode", EmitDefaultValue = false)]
+        public string Barcode { get; set; }
+
+        [DataMember(Name = "price", EmitDefaultValue = false)]
+        public Price Price { get; set; }
+
+        [DataMember(Name = "region", EmitDefaultValue = false)]
+        public string Region { get; set; }
+
+        [DataMember(Name = "payment_status", EmitDefaultValue = false)]
+        public string PaymentStatus { get; set; }
     }
 }

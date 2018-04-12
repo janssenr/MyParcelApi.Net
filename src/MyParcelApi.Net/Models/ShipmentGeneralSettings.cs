@@ -8,6 +8,9 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "save_recipient_address", EmitDefaultValue = false, IsRequired = false)]
         public bool? SaveRecipientAddress { get; set; }
 
+        [DataMember(Name = "tracktrace", EmitDefaultValue = false, IsRequired = false)]
+        public ShipmentGeneralSettingsTrackTrace TrackTrace { get; set; }
+
         [DataMember(Name = "delivery_notification", EmitDefaultValue = false, IsRequired = false)]
         public bool? DeliveryNotification { get; set; }
 

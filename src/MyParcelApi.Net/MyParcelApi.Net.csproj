@@ -68,6 +68,7 @@
     <Compile Include="Models\ReturnShipment.cs" />
     <Compile Include="Models\Shipment.cs" />
     <Compile Include="Models\ShipmentGeneralSettings.cs" />
+    <Compile Include="Models\ShipmentGeneralSettingsTrackTrace.cs" />
     <Compile Include="Models\ShipmentLabelDownloadLink.cs" />
     <Compile Include="Models\ShipmentOptions.cs" />
     <Compile Include="Models\ShipmentStatus.cs" />
