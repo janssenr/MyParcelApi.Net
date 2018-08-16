@@ -1,0 +1,19 @@
+version: 1.0.{build}
+
+image: Visual Studio 2017
+
+before_build:
+- nuget restore src\MyParcelApi.Net.sln
+
+build:
+  project: src\MyParcelApi.Net.sln
+  verbosity: minimal
+
+test: off  
+#test:
+#  assemblies:
+#    - src\MyParcelApi.Tests\bin\Debug\MyParcelApi.Tests.dll
+
+#after_test:
+#- .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user "-filter:+[MyParcelApi*]*" -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\src\MyParcelApi.Tests\bin\Debug\MyParcelApi.Tests.dll" -output:".\coverage.xml"
+#- .\src\packages\Codecov.1.0.5\tools\codecov -f "coverage.xml"
