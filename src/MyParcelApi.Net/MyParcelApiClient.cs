@@ -346,7 +346,7 @@ namespace MyParcelApi.Net
                 {"cc", countryCode},
                 {"postal_code", postalCode},
                 {"number", number},
-                {"carrier", carier.ToString().ToLower()}
+                {"carrier", Convert.ToInt32(carier).ToString().ToLower()}
             };
             if (deliveryTime.HasValue)
                 parameters.Add("delivery_time", deliveryTime.Value.ToString("HH:mm:ss"));

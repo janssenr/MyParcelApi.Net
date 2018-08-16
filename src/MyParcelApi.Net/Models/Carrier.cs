@@ -2,6 +2,7 @@
 {
     public enum Carrier
     {
-        PostNl = 1
+        PostNl = 1,
+        BPost = 2
     }
 }
