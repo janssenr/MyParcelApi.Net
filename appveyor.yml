@@ -9,9 +9,9 @@ build:
   project: src\MyParcelApi.Net.sln
   verbosity: minimal
   
-test:
-  assemblies:
-    - src\MyParcelApi.Tests\bin\Debug\MyParcelApi.Tests.dll
+#test:
+#  assemblies:
+#    - src\MyParcelApi.Tests\bin\Debug\MyParcelApi.Tests.dll
 
 #after_test:
 #- .\src\packages\OpenCover.4.6.519\tools\OpenCover.Console.exe -register:user "-filter:+[MyParcelApi*]*" -target:"vstest.console.exe" -targetargs:"/logger:Appveyor .\src\MyParcelApi.Tests\bin\Debug\MyParcelApi.Tests.dll" -output:".\coverage.xml"
