@@ -406,20 +406,8 @@ namespace MyParcelApi.Net
             return null;
         }
 
-
         /// <summary>
-        /// Use this function to delete webhook subscriptions. You specify multiple subscription ids 
-        /// </summary>
-        /// <param name="ids"></param>
-        /// <returns>This method returns true if successful.</returns>
-        public async Task<bool> DeleteSubscription(int[] ids)
-        {
-            var response = await _httpClient.DeleteAsync("webhook_subscriptions/" + string.Join(";", ids)).ConfigureAwait(false);
-            return response.IsSuccessStatusCode;
-        }
-
-        /// <summary>
-        /// Use this function to fetch webhook subscriptions. You can also filter by account and shop id that you have access to.
+        /// Use this function to fetch your active webhook subscriptions.
         /// </summary>
         /// <param name="ids">This is the susbcription id. You can specify multiple subscription ids.</param>
         /// <returns>Upon success an array of Subscription objects is returned. </returns>
@@ -437,6 +425,21 @@ namespace MyParcelApi.Net
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.WebhookSubscriptions;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Use this function to delete webhook subscriptions. You specify multiple subscription ids 
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns>This method returns true if successful.</returns>
+        public async Task<bool> DeleteSubscription(int[] ids)
+        {
+            var urlBuilder = new StringBuilder("webhook_subscriptions/");
+
+            if (ids != null && ids.Length > 0)
+                urlBuilder.Append($"{string.Join(";", ids)}");
+            var response = await _httpClient.DeleteAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            return response.IsSuccessStatusCode;
         }
 
         private string GetQueryString(Dictionary<string, string> parameters)
