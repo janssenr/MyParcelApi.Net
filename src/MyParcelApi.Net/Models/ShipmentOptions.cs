@@ -15,9 +15,6 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "delivery_date", EmitDefaultValue = false, IsRequired = false)]
         public DateTime DeliveryDate { get; set; }
 
-        //[DataMember(Name = "delivery_remark", EmitDefaultValue = false, IsRequired = false)]
-        //public string DeliveryRemark { get; set; }
-
         [DataMember(Name = "only_recipient", EmitDefaultValue = false, IsRequired = false)]
         private int? _onlyRecipientRaw;
         [IgnoreDataMember]
