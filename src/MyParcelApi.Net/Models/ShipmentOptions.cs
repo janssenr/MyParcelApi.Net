@@ -149,5 +149,31 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "label_description", EmitDefaultValue = false, IsRequired = false)]
         public string LabelDescription { get; set; }
+
+        [DataMember(Name = "age_check", EmitDefaultValue = false, IsRequired = false)]
+        private int? _ageCheckRaw;
+        [IgnoreDataMember]
+        public bool? AgeCheck
+        {
+            get
+            {
+                if (_ageCheckRaw.HasValue)
+                {
+                    return Convert.ToBoolean(_ageCheckRaw);
+                }
+                return null;
+            }
+            set
+            {
+                if (value.HasValue)
+                {
+                    _ageCheckRaw = Convert.ToInt32(value);
+                }
+                else
+                {
+                    _ageCheckRaw = null;
+                }
+            }
+        }
     }
 }
