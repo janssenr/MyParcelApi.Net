@@ -447,7 +447,7 @@ namespace MyParcelApi.Tests
                         Return = false,
                         Insurance = new Price
                         {
-                            Amount = 50,
+                            Amount = 5000,
                             Currency = "EUR"
                         }
                     }
