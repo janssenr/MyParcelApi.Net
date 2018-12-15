@@ -172,8 +172,8 @@ namespace MyParcelApi.Net
                 parameters.Add("sort", sort);
             if (!string.IsNullOrWhiteSpace(order))
                 parameters.Add("order", order);
-            if (!string.IsNullOrWhiteSpace(q))
-                parameters.Add("q", q);
+            //if (!string.IsNullOrWhiteSpace(q))
+            parameters.Add("q", q);
             if (dropoffToday.HasValue)
                 parameters.Add("dropoff_today", Convert.ToInt32(dropoffToday.Value).ToString());
             if (status != null && status.Length > 0)
@@ -445,11 +445,8 @@ namespace MyParcelApi.Net
         private string GetQueryString(Dictionary<string, string> parameters)
         {
             var queryString = string.Join("&",
-                parameters.Select(
-                    p =>
-                        string.IsNullOrEmpty(p.Value)
-                            ? Uri.EscapeDataString(p.Key)
-                            : $"{Uri.EscapeDataString(p.Key)}={Uri.EscapeDataString(p.Value)}"));
+                parameters.Select(p =>
+                    $"{Uri.EscapeDataString(p.Key)}={(!string.IsNullOrEmpty(p.Value) ? Uri.EscapeDataString(p.Value) : "")}"));
             return !string.IsNullOrWhiteSpace(queryString) ? "?" + queryString : string.Empty;
         }
     }
