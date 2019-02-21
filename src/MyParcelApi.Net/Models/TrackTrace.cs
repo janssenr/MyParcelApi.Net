@@ -12,16 +12,40 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public string Code { get; set; }
 
-        [DataMember(Name = "final", EmitDefaultValue = false)]
-        public bool Final { get; set; }
-
         [DataMember(Name = "description", EmitDefaultValue = false)]
         public string Description { get; set; }
 
         [DataMember(Name = "time", EmitDefaultValue = false)]
         public DateTime? Time { get; set; }
 
+        [DataMember(Name = "link_consumer_portal", EmitDefaultValue = false)]
+        public string LinkConsumerPortal { get; set; }
+
+        [DataMember(Name = "link_tracktrace", EmitDefaultValue = false)]
+        public string LinkTrackTrace { get; set; }
+
+        [DataMember(Name = "recipient", EmitDefaultValue = false)]
+        public Address Recipient { get; set; }
+
+        [DataMember(Name = "sender", EmitDefaultValue = false)]
+        public Address Sender { get; set; }
+
+        [DataMember(Name = "options", EmitDefaultValue = false)]
+        public ShipmentOptions Options { get; set; }
+
+        [DataMember(Name = "pickup", EmitDefaultValue = false)]
+        public PickupLocation Pickup { get; set; }
+
+        [DataMember(Name = "status", EmitDefaultValue = false)]
+        public TrackTraceStatus Status { get; set; }
+
         [DataMember(Name = "history", EmitDefaultValue = false)]
         public TrackTraceHistory[] History { get; set; }
+
+        [DataMember(Name = "delivery_moment_type", EmitDefaultValue = false)]
+        public string DeliveryMomentType { get; set; }
+
+        [DataMember(Name = "delivery_moment", EmitDefaultValue = false)]
+        public DeliveryMoment DeliveryMoment { get; set; }
     }
 }

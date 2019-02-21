@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace MyParcelApi.Net.Models
@@ -12,8 +13,13 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "delivery_type", EmitDefaultValue = false, IsRequired = false)]
         public DeliveryType DeliveryType { get; set; }
 
-        [DataMember(Name = "delivery_date", EmitDefaultValue = false, IsRequired = false)]
-        public DateTime? DeliveryDate { get; set; }
+        [DataMember(Name = "delivery_date", EmitDefaultValue = false, IsRequired = false, Order = 2)]
+        public string DeliveryDateRaw { get; set; }
+        public DateTime? DeliveryDate
+        {
+            get => !string.IsNullOrWhiteSpace(DeliveryDateRaw) ? DateTime.ParseExact(DeliveryDateRaw, "yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture) : (System.DateTime?)null;
+            set => DeliveryDateRaw = value?.ToString("yyyy-MM-dd HH:mm:ss");
+        }
 
         [DataMember(Name = "only_recipient", EmitDefaultValue = false, IsRequired = false)]
         private int? _onlyRecipientRaw;

@@ -77,5 +77,11 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "payment_status", EmitDefaultValue = false)]
         public string PaymentStatus { get; set; }
+
+        [DataMember(Name = "secondary_shipments", EmitDefaultValue = false)]
+        public Shipment[] SecondaryShipments { get; set; }
+
+        //[DataMember(Name = "multi_collo_main_shipment_id", EmitDefaultValue = true)]
+        //public int? MultiColloMainShipmentId { get; set; }
     }
 }

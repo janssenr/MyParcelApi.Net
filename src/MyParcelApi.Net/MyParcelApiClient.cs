@@ -65,6 +65,34 @@ namespace MyParcelApi.Net
         }
 
         /// <summary>
+        /// Update shipments allows you to update standard shipments.
+        /// </summary>
+        /// <param name="shipments"></param>
+        /// <returns>Array of ShipmentIds is returned. The ids in the ShipmentIds array will be in the same order they where sent.</returns>
+        public async Task<ObjectId[]> UpdateShipment(Shipment[] shipments)
+        {
+            var apiWrapper = new ApiWrapper
+            {
+                Data = new DataWrapper
+                {
+                    Shipments = shipments
+                }
+            };
+            var content = new StringContent(JsonHelper.Serialize(apiWrapper));
+            content.Headers.Clear();
+            content.Headers.Add("Content-Type", "application/vnd.shipment+json;charset=utf-8;version=1.1");
+            var response = await _httpClient.PutAsync("shipments", content).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Ids;
+            }
+            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
+            var message = string.Join("\n", errors.Select(obj => string.Join("\n", obj.Human)));
+            throw new Exception(message);
+        }
+
+        /// <summary>
         /// Add return shipments allows you to create related return shipments.
         /// </summary>
         /// <param name="returnShipments"></param>
@@ -273,9 +301,9 @@ namespace MyParcelApi.Net
         /// <param name="size">Items per page. Maximum value is 200 and minimum is 30. Defaults to 30.</param>
         /// <param name="sort">TrackTrace object field to sort on.</param>
         /// <param name="order">Sort order for sort filter. Defaults to ASC.</param>
+        /// <param name="extraInfo">Only the delivery_moment option is available. Delivery moment is not included by default for performance reasons.</param>
         /// <returns>Upon success an array of TrackTrace objects is returned</returns>
-        public async Task<TrackTrace[]> TrackShipment(int[] ids, int page = 1, int size = 30, string sort = "",
-            string order = "ASC")
+        public async Task<TrackTrace[]> TrackShipment(int[] ids, int page = 1, int size = 30, string sort = "", string order = "ASC", string extraInfo = null)
         {
             if (page <= 0)
                 throw new ArgumentOutOfRangeException("Parameter page cannot 0 or less");
@@ -301,6 +329,8 @@ namespace MyParcelApi.Net
                 parameters.Add("sort", sort);
             if (!string.IsNullOrWhiteSpace(order))
                 parameters.Add("order", order);
+            if (!string.IsNullOrWhiteSpace(extraInfo))
+                parameters.Add("extra_info", extraInfo);
             urlBuilder.Append(GetQueryString(parameters));
 
             var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
@@ -309,7 +339,9 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.TrackTraces;
             }
-            return null;
+            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
+            var message = string.Join("\n", errors.Select(obj => string.Join("\n", obj.Message)));
+            throw new Exception(message);
         }
 
         /// <summary>

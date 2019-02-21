@@ -50,6 +50,8 @@
     <Compile Include="Models\Carrier.cs" />
     <Compile Include="Models\CustomsDeclaration.cs" />
     <Compile Include="Models\CustomsItem.cs" />
+    <Compile Include="Models\DateTimeStartEnd.cs" />
+    <Compile Include="Models\DeliveryMoment.cs" />
     <Compile Include="Models\DeliveryOption.cs" />
     <Compile Include="Models\DeliveryOptionTime.cs" />
     <Compile Include="Models\DeliveryType.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Models\TrackTrace.cs" />
     <Compile Include="Models\TrackTraceHistory.cs" />
     <Compile Include="Models\PaymentInstruction.cs" />
+    <Compile Include="Models\TrackTraceStatus.cs" />
     <Compile Include="MyParcelApiClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Wrappers\ApiWrapper.cs" />
