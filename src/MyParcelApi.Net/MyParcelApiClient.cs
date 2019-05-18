@@ -1,15 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using MyParcelApi.Net.Exceptions;
 using MyParcelApi.Net.Helpers;
 using MyParcelApi.Net.Models;
 using MyParcelApi.Net.Wrappers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MyParcelApi.Net
 {
@@ -22,7 +27,8 @@ namespace MyParcelApi.Net
         /// Instantiates a new MyParcelApiClient
         /// </summary>
         /// <param name="apiKey">API key which can be generated on myparcel.nl</param>
-        public MyParcelApiClient(string apiKey)
+        /// <param name="cultureInfo">You can translate the endpoint by sending the correct header</param>
+        public MyParcelApiClient(string apiKey, CultureInfo cultureInfo = null)
         {
             if (string.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentException("Parameter apiKey needs a value");
@@ -34,6 +40,10 @@ namespace MyParcelApi.Net
 
             _httpClient.DefaultRequestHeaders.Add("Authorization", $"basic {Convert.ToBase64String(Encoding.UTF8.GetBytes(apiKey))}");
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "CustomApiCall/2");
+            if (cultureInfo != null)
+            {
+                _httpClient.DefaultRequestHeaders.Add("Accept-Language", cultureInfo.Name);
+            }
         }
 
         /// <summary>
@@ -59,9 +69,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Ids;
             }
-            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
-            var message = string.Join("\n", errors.Select(obj => string.Join("\n", obj.Human)));
-            throw new Exception(message);
+            return await HandleResponseError<ObjectId[]>(response);
         }
 
         /// <summary>
@@ -87,9 +95,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Ids;
             }
-            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
-            var message = string.Join("\n", errors.Select(obj => string.Join("\n", obj.Human)));
-            throw new Exception(message);
+            return await HandleResponseError<ObjectId[]>(response);
         }
 
         /// <summary>
@@ -130,7 +136,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Ids;
             }
-            return null;
+            return await HandleResponseError<ObjectId[]>(response);
         }
 
         /// <summary>
@@ -157,7 +163,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.DownloadUrl;
             }
-            return null;
+            return await HandleResponseError<DownloadUrl>(response);
         }
 
         /// <summary>
@@ -218,7 +224,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult, "yyyy-MM-ddTHH:mm:sszzz").Data.Shipments;
             }
-            return null;
+            return await HandleResponseError<Shipment[]>(response);
         }
 
         /// <summary>
@@ -253,11 +259,7 @@ namespace MyParcelApi.Net
                 return stream;
             }
             return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.PaymentInstructions;
-
-            //var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-            //var data = await _httpClient.GetByteArrayAsync(urlBuilder.ToString()).ConfigureAwait(false);
-            //return data;
-            //return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Shipments;
+            //return await HandleResponseError<object[]>(response);
         }
 
         /// <summary>
@@ -291,6 +293,7 @@ namespace MyParcelApi.Net
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.DownloadLink;
             }
             return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.PaymentInstructions;
+            //return await HandleResponseError<object[]>(response);
         }
 
         /// <summary>
@@ -339,9 +342,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.TrackTraces;
             }
-            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
-            var message = string.Join("\n", errors.Select(obj => string.Join("\n", obj.Message)));
-            throw new Exception(message);
+            return await HandleResponseError<TrackTrace[]>(response);
         }
 
         /// <summary>
@@ -408,9 +409,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data;
             }
-            var errors = JsonHelper.Deserialize<ApiWrapper>(jsonResult).Errors;
-            var message = string.Join("\n", errors.Select(obj => obj.Message));
-            throw new Exception(message);
+            return await HandleResponseError<DataWrapper>(response);
         }
 
         /// <summary>
@@ -435,7 +434,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(response.Content.ReadAsStringAsync().Result).Data.Ids;
             }
-            return null;
+            return await HandleResponseError<ObjectId[]>(response);
         }
 
         /// <summary>
@@ -456,7 +455,7 @@ namespace MyParcelApi.Net
             {
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.WebhookSubscriptions;
             }
-            return null;
+            return await HandleResponseError<Subscription[]>(response);
         }
 
         /// <summary>
@@ -472,6 +471,72 @@ namespace MyParcelApi.Net
                 urlBuilder.Append($"{string.Join(";", ids)}");
             var response = await _httpClient.DeleteAsync(urlBuilder.ToString()).ConfigureAwait(false);
             return response.IsSuccessStatusCode;
+        }
+
+        private async Task<T> HandleResponseError<T>(HttpResponseMessage response)
+        {
+            string message = string.Empty;
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.NotFound:
+                    message = "Page not found";
+                    break;
+                default:
+                    var responseBody = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    //var result = JsonHelper.Deserialize<ApiWrapper>(responseBody);
+                    //message = string.Join("\n", result.Errors.Select(obj => string.Join("\n", obj.Human)));
+                    //if (string.IsNullOrEmpty(message))
+                    //{
+                    //    message = result.Message;
+                    //}
+                    JObject result = JObject.Parse(responseBody);
+                    if (result.ContainsKey("message"))
+                    {
+                        message = result["message"].ToString();
+                    }
+
+                    if (result.ContainsKey("errors"))
+                    {
+                        JArray errors = (JArray)result["errors"];
+                        foreach (JObject error in errors)
+                        {
+                            if (error.ContainsKey("fields") && error.ContainsKey("human"))
+                            {
+                                message += GetMessages(error);
+                            }
+                            else
+                            {
+                                foreach (JObject errorCode in errors)
+                                {
+                                    foreach (JProperty childError in errorCode.Children())
+                                    {
+                                        foreach (JObject child in childError.Children())
+                                        {
+                                            if (child.ContainsKey("fields") && child.ContainsKey("human"))
+                                            {
+                                                message += GetMessages(child);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    break;
+            }
+            throw new MyParcelException(message);
+        }
+
+        private string GetMessages(JObject error)
+        {
+            string messages = string.Empty;
+            JArray fields = (JArray)error["fields"];
+            JArray human = (JArray)error["human"];
+            for (int i = 0; i < human.Count; i++)
+            {
+                messages += "\n" + human[i];
+            }
+            return messages;
         }
 
         private string GetQueryString(Dictionary<string, string> parameters)

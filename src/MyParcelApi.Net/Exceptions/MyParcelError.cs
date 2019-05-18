@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
-namespace MyParcelApi.Net.Models
+namespace MyParcelApi.Net.Exceptions
 {
     [DataContract]
-    public class Error
+    public class MyParcelError
     {
         [DataMember(Name = "code", EmitDefaultValue = false)]
         public int Code { get; set; }
@@ -12,14 +15,8 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
 
-        //[DataMember(Name = "human", EmitDefaultValue = false)]
-        //public string Human { get; set; }
-
         [DataMember(Name = "fields", EmitDefaultValue = false)]
         public string[] Fields { get; set; }
-
-        //[DataMember(Name = "human", EmitDefaultValue = false)]
-        //public string[] Human { get; set; }
 
         [DataMember(Name = "human", EmitDefaultValue = false, IsRequired = false)]
         private dynamic _human;
@@ -47,5 +44,8 @@ namespace MyParcelApi.Net.Models
             }
             set { _human = value; }
         }
+
+        [JsonExtensionData]
+        public IDictionary<string, JToken> AdditionalData;
     }
 }

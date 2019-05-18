@@ -1,5 +1,5 @@
 ﻿using System.Runtime.Serialization;
-using MyParcelApi.Net.Models;
+using MyParcelApi.Net.Exceptions;
 
 namespace MyParcelApi.Net.Wrappers
 {
@@ -10,7 +10,7 @@ namespace MyParcelApi.Net.Wrappers
         public DataWrapper Data { get; set; }
 
         [DataMember(Name = "errors", EmitDefaultValue = false)]
-        public Error[] Errors { get; set; }
+        public MyParcelError[] Errors { get; set; }
 
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
