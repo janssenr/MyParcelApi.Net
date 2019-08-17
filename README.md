@@ -184,12 +184,20 @@ foreach (var shipment in shipments)
 Get shipment label. You can specify label format and starting position of labels on the first page with the FORMAT and POSITION query parameters. The POSITION parameter only works when you specify the A4 format and is only applied on the first page with labels. 
 
 ```
-using (var stream = await client.GetShipmentLabel(new[] { 12 }, "A4", new[] { 3, 4 }))
+var result = await client.GetShipmentLabel(shipmentIds.ToArray(), "A4", new[] { 3, 4 });
+if (result is Stream)
 {
-	using (var fs = new FileStream(@"C:\Temp\test.pdf", FileMode.Create, FileAccess.Write, FileShare.None))
+	using (var stream = (Stream)result)
 	{
-		await stream.CopyToAsync(fs);
+		using (var fs = new FileStream(@"C:\Temp\test.pdf", FileMode.Create, FileAccess.Write, FileShare.None))
+		{
+			await stream.CopyToAsync(fs);
+		}
 	}
+}
+else if (result is PaymentInstruction[])
+{
+	var paymentInstructions = (PaymentInstruction[])result;
 }
 ```
 
