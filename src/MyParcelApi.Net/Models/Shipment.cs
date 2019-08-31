@@ -45,7 +45,7 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "physical_properties", EmitDefaultValue = false, IsRequired = false)]
         public PhysicalProperties PhysicalProperties { get; set; }
 
-        [DataMember(Name = "carrier", EmitDefaultValue = false, IsRequired = false)]
+        [DataMember(Name = "carrier_id", EmitDefaultValue = false, IsRequired = false)]
         public Carrier Carrier { get; set; }
 
         [DataMember(Name = "created", EmitDefaultValue = false)]
