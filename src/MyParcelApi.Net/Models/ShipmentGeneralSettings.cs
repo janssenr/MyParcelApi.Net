@@ -16,5 +16,8 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "delivery_notification_email", EmitDefaultValue = false, IsRequired = false)]
         public string[] DeliveryNotificationEmail { get; set; }
+
+        [DataMember(Name = "disable_auto_detect_pickup", EmitDefaultValue = false, IsRequired = false)]
+        public bool? DisableAutoDetectPickup { get; set; }
     }
 }

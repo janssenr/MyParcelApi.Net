@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace MyParcelApi.Net.Models
 {
@@ -23,6 +22,12 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "postal_code", EmitDefaultValue = false)]
         public string PostalCode { get; set; }
+
+        [DataMember(Name = "city", EmitDefaultValue = false, IsRequired = false)]
+        public string City { get; set; }
+
+        [DataMember(Name = "cc", EmitDefaultValue = false, IsRequired = false)]
+        public string Country { get; set; }
 
         [DataMember(Name = "start_time", EmitDefaultValue = false)]
         public string StartTime { get; set; }
