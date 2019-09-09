@@ -48,6 +48,27 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "carrier", EmitDefaultValue = false, IsRequired = false)]
         public Carrier Carrier { get; set; }
 
+        /// <summary>
+        /// This is a workarround for a bug in the MyParcelApi where there is inconsistency between getting the Carriers [GET] and Creating/Updating them [POST/PUT].
+        /// It's also possible to be null
+        /// </summary>
+        [DataMember(Name = "carrier_id", EmitDefaultValue = false, IsRequired = false)]
+        private Carrier? CarrierFallback
+        {
+            get
+            {
+                return Carrier;
+            }
+            set
+            {
+                if(value.HasValue)
+                {
+                    Carrier = value.Value;
+                }
+               
+            }
+        }
+
         [DataMember(Name = "created", EmitDefaultValue = false)]
         public DateTime Created { get; set; }
 
