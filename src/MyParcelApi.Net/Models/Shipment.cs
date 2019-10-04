@@ -57,15 +57,17 @@ namespace MyParcelApi.Net.Models
         {
             get
             {
-                return Carrier;
+                //return Carrier;
+                //Set to null, because of error "The property carrier_id is not defined and the definition does not allow additional properties."
+                return null;
             }
             set
             {
-                if(value.HasValue)
+                if (value.HasValue)
                 {
                     Carrier = value.Value;
                 }
-               
+
             }
         }
 

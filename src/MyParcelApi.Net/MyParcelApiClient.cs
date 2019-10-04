@@ -364,7 +364,7 @@ namespace MyParcelApi.Net
         /// <param name="longitude">This provides the ability to display the postNL locations through the coordinates. If only latitude or longitude is passed as a parameter, it will be ignored and will simply use zip code for searching locations.</param>
         /// <returns>Upon success two arrays are returned one for DeliveryOptions and one for PickupOptions objects is returned. This object contains delivery date, time and pricing. Upon error an Error object is returned.</returns>
         public async Task<DataWrapper> GetDeliveryOptions(string countryCode, string postalCode, string number,
-            Carrier carier, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
+            Carrier? carier = null, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
             DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
             DeliveryType[] excludeDeliveryType = null, double? latitude = null, double? longitude = null)
         {
@@ -374,19 +374,20 @@ namespace MyParcelApi.Net
             if (deliverydaysWindow.HasValue && (deliverydaysWindow.Value < 1 || deliverydaysWindow.Value > 14))
                 throw new ArgumentOutOfRangeException("Parameter deliverydaysWindow must be between 1 and 14");
 
-            var urlBuilder = new StringBuilder("delivery_options/");
+            var urlBuilder = new StringBuilder("delivery_options");
 
             var parameters = new Dictionary<string, string>
             {
                 {"cc", countryCode},
                 {"postal_code", postalCode},
-                {"number", number},
-                {"carrier", Convert.ToInt32(carier).ToString().ToLower()}
+                {"number", number}
             };
+            if (carier.HasValue)
+                parameters.Add("carrier", Convert.ToInt32(carier).ToString().ToLower());
             if (deliveryTime.HasValue)
                 parameters.Add("delivery_time", deliveryTime.Value.ToString("HH:mm:ss"));
             if (deliveryDate.HasValue)
-                parameters.Add("delivery_time", deliveryDate.Value.ToString("yyyy-MM-dd"));
+                parameters.Add("delivery_date", deliveryDate.Value.ToString("yyyy-MM-dd"));
             if (cutoffTime.HasValue)
                 parameters.Add("cutoff_time", cutoffTime.Value.ToString(@"hh\:mm\:ss"));
             if (dropoffDays != null && dropoffDays.Length > 0)
