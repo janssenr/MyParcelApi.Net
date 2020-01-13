@@ -19,5 +19,11 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "street", EmitDefaultValue = false)]
         public string Street { get; set; }
+
+        [DataMember(Name = "location_code", EmitDefaultValue = false)]
+        public string LocationCode { get; set; }
+
+        [DataMember(Name = "retail_network_id", EmitDefaultValue = false)]
+        public string RetailNetworkId { get; set; }
     }
 }
