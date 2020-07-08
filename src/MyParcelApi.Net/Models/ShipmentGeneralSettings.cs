@@ -19,5 +19,8 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "disable_auto_detect_pickup", EmitDefaultValue = false, IsRequired = false)]
         public bool? DisableAutoDetectPickup { get; set; }
+
+        [DataMember(Name = "printer_identifier", EmitDefaultValue = false, IsRequired = false)]
+        public string PrinterIdentifier { get; set; }
     }
 }

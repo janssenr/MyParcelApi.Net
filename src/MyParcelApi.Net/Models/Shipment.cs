@@ -37,7 +37,7 @@ namespace MyParcelApi.Net.Models
         public ShipmentGeneralSettings GeneralSettings { get; set; }
 
         [DataMember(Name = "pickup", EmitDefaultValue = false, IsRequired = false)]
-        public PickupLocation Pickup { get; set; }
+        public Location<string[]> Pickup { get; set; }
 
         [DataMember(Name = "customs_declaration", EmitDefaultValue = false, IsRequired = false)]
         public CustomsDeclaration CustomsDeclaration { get; set; }

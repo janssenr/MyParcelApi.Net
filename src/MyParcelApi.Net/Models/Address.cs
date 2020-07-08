@@ -29,7 +29,7 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "number_suffix", EmitDefaultValue = false, IsRequired = false)]
         public string NumberSuffix { get; set; }
 
-        [DataMember(Name = "person", EmitDefaultValue = false, IsRequired = true)]
+        [DataMember(Name = "person", EmitDefaultValue = false, IsRequired = false)]
         public string Person { get; set; }
 
         [DataMember(Name = "company", EmitDefaultValue = false, IsRequired = false)]

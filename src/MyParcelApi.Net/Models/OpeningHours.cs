@@ -1,29 +1,30 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace MyParcelApi.Net.Models
 {
     [DataContract]
-    public class OpeningHours
+    public class OpeningHours<T>
     {
         [DataMember(Name = "monday", EmitDefaultValue = false)]
-        public string[] Monday { get; set; }
+        public T Monday { get; set; }
 
         [DataMember(Name = "tuesday", EmitDefaultValue = false)]
-        public string[] Tuesday { get; set; }
+        public T Tuesday { get; set; }
 
         [DataMember(Name = "wednesday", EmitDefaultValue = false)]
-        public string[] Wednesday { get; set; }
+        public T Wednesday { get; set; }
 
         [DataMember(Name = "thursday", EmitDefaultValue = false)]
-        public string[] Thursday { get; set; }
+        public T Thursday { get; set; }
 
         [DataMember(Name = "friday", EmitDefaultValue = false)]
-        public string[] Friday { get; set; }
+        public T Friday { get; set; }
 
         [DataMember(Name = "saturday", EmitDefaultValue = false)]
-        public string[] Saturday { get; set; }
+        public T Saturday { get; set; }
 
         [DataMember(Name = "sunday", EmitDefaultValue = false)]
-        public string[] Sunday { get; set; }
+        public T Sunday { get; set; }
     }
 }

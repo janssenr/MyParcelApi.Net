@@ -351,6 +351,7 @@ namespace MyParcelApi.Net
         /// <param name="countryCode">The country code for which to fetch the delivery options</param>
         /// <param name="postalCode">The postal code for which to fetch the delivery options.</param>
         /// <param name="number">The street number for which to fetch the delivery options.</param>
+        /// <param name="platform">The platform where you want the data from</param>
         /// <param name="carier">The carrier for which to fetch the delivery options.</param>
         /// <param name="deliveryTime">The time on which a package has to be delivered. Note: This is only an indication of time the package will be delivered on the selected date.</param>
         /// <param name="deliveryDate">The date on which the package has to be delivered.</param>
@@ -364,9 +365,9 @@ namespace MyParcelApi.Net
         /// <param name="longitude">This provides the ability to display the postNL locations through the coordinates. If only latitude or longitude is passed as a parameter, it will be ignored and will simply use zip code for searching locations.</param>
         /// <returns>Upon success two arrays are returned one for DeliveryOptions and one for PickupOptions objects is returned. This object contains delivery date, time and pricing. Upon error an Error object is returned.</returns>
         public async Task<DataWrapper> GetDeliveryOptions(string countryCode, string postalCode, string number,
-            Carrier? carier = null, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
-            DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
-            DeliveryType[] excludeDeliveryType = null, double? latitude = null, double? longitude = null)
+                Platform? platform = null, Carrier? carier = null, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
+                DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
+                DeliveryType[] excludeDeliveryType = null, double? latitude = null, double? longitude = null)
         {
             if (dropoffDelay.HasValue && (dropoffDelay.Value < 0 || dropoffDelay.Value > 14))
                 throw new ArgumentOutOfRangeException("Parameter dropoffDays must be between 0 and 14");
@@ -382,8 +383,10 @@ namespace MyParcelApi.Net
                 {"postal_code", postalCode},
                 {"number", number}
             };
+            if (platform.HasValue)
+                parameters.Add("platform", platform.ToString().ToLower());
             if (carier.HasValue)
-                parameters.Add("carrier", Convert.ToInt32(carier).ToString().ToLower());
+                parameters.Add("carrier", carier.ToString().ToLower());
             if (deliveryTime.HasValue)
                 parameters.Add("delivery_time", deliveryTime.Value.ToString("HH:mm:ss"));
             if (deliveryDate.HasValue)
@@ -413,6 +416,154 @@ namespace MyParcelApi.Net
                 return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data;
             }
             return await HandleResponseError<DataWrapper>(response);
+        }
+
+        /// <summary>
+        /// Get the delivery options for a given location and carrier. If none of the optional parameters are specified then the following default will be used: If a request is made for the delivery options between Friday after the default cutoff_time (15h30) and Monday before the default cutoff_time (15h30) then Tuesday will be shown as the next possible delivery date.
+        /// </summary>
+        /// <param name="countryCode">The country code for which to fetch the delivery options</param>
+        /// <param name="postalCode">The postal code for which to fetch the delivery options.</param>
+        /// <param name="number">The street number for which to fetch the delivery options.</param>
+        /// <param name="platform">The platform where you want the data from</param>
+        /// <param name="carier">The carrier for which to fetch the delivery options.</param>
+        /// <param name="deliveryTime">The time on which a package has to be delivered. Note: This is only an indication of time the package will be delivered on the selected date.</param>
+        /// <param name="deliveryDate">The date on which the package has to be delivered.</param>
+        /// <param name="cutoffTime">This option allows the Merchant to indicate the latest cut-off time before which a consumer order will still be picked, packed and dispatched on the same/first set dropoff day, taking into account the dropoff-delay. Default time is 15h30. For example, if cutoff time is 15h30, Monday is a delivery day and there's no delivery delay; all orders placed Monday before 15h30 will be dropped of at PostNL on that same Monday in time for the Monday collection.</param>
+        /// <param name="dropoffDays">This options allows the Merchant to set the days she normally goes to PostNL to hand in her parcels. By default Saturday and Sunday are excluded.</param>
+        /// <param name="mondayDelivery">Monday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click here for more information concerning Monday delivery and the locations. Note: To activate Monday delivery, value 6 must be given with dropoff_days, value 1 must be given by monday_delivery.And on Saturday the cutoff_time must be before 15:00 (14:30 recommended) so that Monday will be shown.</param>
+        /// <param name="dropoffDelay">This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time. By default this is 0 and max is 14.</param>
+        /// <param name="deliverydaysWindow">This options allows the Merchant to set the number of days into the future for which she wants to show her consumers delivery options. For example, if set to 3 in her check-out, a consumer ordering on Monday will see possible delivery options for Tuesday, Wednesday and Thursday (provided there is no drop-off delay, it's before the cut-off time and she goes to PostNL on Mondays). Min is 1. and max. is 14.</param>
+        /// <param name="excludeDeliveryType">This options allows the Merchant to exclude delivery types from the available delivery options. You can specify multiple delivery types by semi-colon separating them. The standard delivery type cannot be excluded.</param>
+        /// <param name="latitude">This provides the ability to display the postNL locations through the coordinates. If only latitude or longitude is passed as a parameter, it will be ignored and will simply use zip code for searching locations.</param>
+        /// <param name="longitude">This provides the ability to display the postNL locations through the coordinates. If only latitude or longitude is passed as a parameter, it will be ignored and will simply use zip code for searching locations.</param>
+        /// <returns>Upon success two arrays are returned one for DeliveryOptions and one for PickupOptions objects is returned. This object contains delivery date, time and pricing. Upon error an Error object is returned.</returns>
+        public async Task<Delivery[]> GetDeliveryOptionsV2(string countryCode, string postalCode, string number,
+                Platform? platform = null, Carrier? carier = null, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
+                DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
+                DeliveryType[] excludeDeliveryType = null, double? latitude = null, double? longitude = null)
+        {
+            if (dropoffDelay.HasValue && (dropoffDelay.Value < 0 || dropoffDelay.Value > 14))
+                throw new ArgumentOutOfRangeException("Parameter dropoffDays must be between 0 and 14");
+
+            if (deliverydaysWindow.HasValue && (deliverydaysWindow.Value < 1 || deliverydaysWindow.Value > 14))
+                throw new ArgumentOutOfRangeException("Parameter deliverydaysWindow must be between 1 and 14");
+
+            var urlBuilder = new StringBuilder("delivery_options");
+
+            var parameters = new Dictionary<string, string>
+            {
+                {"cc", countryCode},
+                {"postal_code", postalCode},
+                {"number", number}
+            };
+            if (platform.HasValue)
+                parameters.Add("platform", platform.ToString().ToLower());
+            if (carier.HasValue)
+                parameters.Add("carrier", carier.ToString().ToLower());
+            if (deliveryTime.HasValue)
+                parameters.Add("delivery_time", deliveryTime.Value.ToString("HH:mm:ss"));
+            if (deliveryDate.HasValue)
+                parameters.Add("delivery_date", deliveryDate.Value.ToString("yyyy-MM-dd"));
+            if (cutoffTime.HasValue)
+                parameters.Add("cutoff_time", cutoffTime.Value.ToString(@"hh\:mm\:ss"));
+            if (dropoffDays != null && dropoffDays.Length > 0)
+                parameters.Add("dropoff_days", string.Join(";", dropoffDays.Select(dd => (int)dd)));
+            if (mondayDelivery.HasValue)
+                parameters.Add("monday_delivery", Convert.ToInt32(mondayDelivery.Value).ToString());
+            if (dropoffDelay.HasValue)
+                parameters.Add("dropoff_delay", dropoffDelay.Value.ToString());
+            if (deliverydaysWindow.HasValue)
+                parameters.Add("deliverydays_window", deliverydaysWindow.Value.ToString());
+            if (excludeDeliveryType != null && excludeDeliveryType.Length > 0)
+                parameters.Add("exclude_delivery_type", string.Join(";", excludeDeliveryType.Select(edt => (int)edt)));
+            if (latitude.HasValue)
+                parameters.Add("latitude", latitude.Value.ToString(CultureInfo.InvariantCulture));
+            if (longitude.HasValue)
+                parameters.Add("longitude", longitude.Value.ToString(CultureInfo.InvariantCulture));
+            urlBuilder.Append(GetQueryString(parameters));
+
+            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json;charset=utf-8;version=2.0");
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Deliveries;
+            }
+            return await HandleResponseError<Delivery[]>(response);
+        }
+
+        /// <summary>
+        /// Get the delivery options for a given location and carrier. If none of the optional parameters are specified then the following default will be used: If a request is made for the delivery options between Friday after the default cutoff_time (15h30) and Monday before the default cutoff_time (15h30) then Tuesday will be shown as the next possible delivery date.
+        /// </summary>
+        /// <param name="countryCode">The country code for which to fetch the delivery options</param>
+        /// <param name="postalCode">The postal code for which to fetch the delivery options.</param>
+        /// <param name="number">The street number for which to fetch the delivery options.</param>
+        /// <param name="platform">The platform where you want the data from</param>
+        /// <param name="carier">The carrier for which to fetch the delivery options.</param>
+        /// <param name="deliveryTime">The time on which a package has to be delivered. Note: This is only an indication of time the package will be delivered on the selected date.</param>
+        /// <param name="deliveryDate">The date on which the package has to be delivered.</param>
+        /// <param name="cutoffTime">This option allows the Merchant to indicate the latest cut-off time before which a consumer order will still be picked, packed and dispatched on the same/first set dropoff day, taking into account the dropoff-delay. Default time is 15h30. For example, if cutoff time is 15h30, Monday is a delivery day and there's no delivery delay; all orders placed Monday before 15h30 will be dropped of at PostNL on that same Monday in time for the Monday collection.</param>
+        /// <param name="dropoffDays">This options allows the Merchant to set the days she normally goes to PostNL to hand in her parcels. By default Saturday and Sunday are excluded.</param>
+        /// <param name="mondayDelivery">Monday delivery is only possible when the package is delivered before 15.00 on Saturday at the designated PostNL locations. Click here for more information concerning Monday delivery and the locations. Note: To activate Monday delivery, value 6 must be given with dropoff_days, value 1 must be given by monday_delivery.And on Saturday the cutoff_time must be before 15:00 (14:30 recommended) so that Monday will be shown.</param>
+        /// <param name="dropoffDelay">This options allows the Merchant to set the number of days it takes her to pick, pack and hand in her parcels at PostNL when ordered before the cutoff time. By default this is 0 and max is 14.</param>
+        /// <param name="deliverydaysWindow">This options allows the Merchant to set the number of days into the future for which she wants to show her consumers delivery options. For example, if set to 3 in her check-out, a consumer ordering on Monday will see possible delivery options for Tuesday, Wednesday and Thursday (provided there is no drop-off delay, it's before the cut-off time and she goes to PostNL on Mondays). Min is 1. and max. is 14.</param>
+        /// <param name="excludeDeliveryType">This options allows the Merchant to exclude delivery types from the available delivery options. You can specify multiple delivery types by semi-colon separating them. The standard delivery type cannot be excluded.</param>
+        /// <param name="latitude">This provides the ability to display the postNL locations through the coordinates. If only latitude or longitude is passed as a parameter, it will be ignored and will simply use zip code for searching locations.</param>
+        /// <param name="longitude">This provides the ability to display the postNL locations through the coordinates. If only latitude or longitude is passed as a parameter, it will be ignored and will simply use zip code for searching locations.</param>
+        /// <returns>Upon success two arrays are returned one for DeliveryOptions and one for PickupOptions objects is returned. This object contains delivery date, time and pricing. Upon error an Error object is returned.</returns>
+        public async Task<PickupLocation[]> GetPickupLocationsV2(string countryCode, string postalCode, string number,
+                Platform? platform = null, Carrier? carier = null, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
+                DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
+                DeliveryType[] excludeDeliveryType = null, double? latitude = null, double? longitude = null)
+        {
+            if (dropoffDelay.HasValue && (dropoffDelay.Value < 0 || dropoffDelay.Value > 14))
+                throw new ArgumentOutOfRangeException("Parameter dropoffDays must be between 0 and 14");
+
+            if (deliverydaysWindow.HasValue && (deliverydaysWindow.Value < 1 || deliverydaysWindow.Value > 14))
+                throw new ArgumentOutOfRangeException("Parameter deliverydaysWindow must be between 1 and 14");
+
+            var urlBuilder = new StringBuilder("pickup_locations");
+
+            var parameters = new Dictionary<string, string>
+            {
+                {"cc", countryCode},
+                {"postal_code", postalCode},
+                {"number", number}
+            };
+            if (platform.HasValue)
+                parameters.Add("platform", platform.ToString().ToLower());
+            if (carier.HasValue)
+                parameters.Add("carrier", carier.ToString().ToLower());
+            if (deliveryTime.HasValue)
+                parameters.Add("delivery_time", deliveryTime.Value.ToString("HH:mm:ss"));
+            if (deliveryDate.HasValue)
+                parameters.Add("delivery_date", deliveryDate.Value.ToString("yyyy-MM-dd"));
+            if (cutoffTime.HasValue)
+                parameters.Add("cutoff_time", cutoffTime.Value.ToString(@"hh\:mm\:ss"));
+            if (dropoffDays != null && dropoffDays.Length > 0)
+                parameters.Add("dropoff_days", string.Join(";", dropoffDays.Select(dd => (int)dd)));
+            if (mondayDelivery.HasValue)
+                parameters.Add("monday_delivery", Convert.ToInt32(mondayDelivery.Value).ToString());
+            if (dropoffDelay.HasValue)
+                parameters.Add("dropoff_delay", dropoffDelay.Value.ToString());
+            if (deliverydaysWindow.HasValue)
+                parameters.Add("deliverydays_window", deliverydaysWindow.Value.ToString());
+            if (excludeDeliveryType != null && excludeDeliveryType.Length > 0)
+                parameters.Add("exclude_delivery_type", string.Join(";", excludeDeliveryType.Select(edt => (int)edt)));
+            if (latitude.HasValue)
+                parameters.Add("latitude", latitude.Value.ToString(CultureInfo.InvariantCulture));
+            if (longitude.HasValue)
+                parameters.Add("longitude", longitude.Value.ToString(CultureInfo.InvariantCulture));
+            urlBuilder.Append(GetQueryString(parameters));
+
+            _httpClient.DefaultRequestHeaders.Add("Accept", "application/json;charset=utf-8;version=2.0");
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.PickupLocations;
+            }
+            return await HandleResponseError<PickupLocation[]>(response);
         }
 
         /// <summary>

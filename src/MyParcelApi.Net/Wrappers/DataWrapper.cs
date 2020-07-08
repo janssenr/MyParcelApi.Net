@@ -25,7 +25,7 @@ namespace MyParcelApi.Net.Wrappers
         public DeliveryOption[] DeliveryOptions { get; set; }
 
         [DataMember(Name = "pickup", EmitDefaultValue = false)]
-        public PickupOption[] PickupOptions { get; set; }
+        public Location<string[]>[] PickupOptions { get; set; }
 
         [DataMember(Name = "webhook_subscriptions", EmitDefaultValue = false)]
         public Subscription[] WebhookSubscriptions { get; set; }
@@ -50,5 +50,11 @@ namespace MyParcelApi.Net.Wrappers
 
         [DataMember(Name = "message", EmitDefaultValue = false)]
         public string Message { get; set; }
+
+        [DataMember(Name = "deliveries", EmitDefaultValue = false)]
+        public Delivery[] Deliveries { get; set; }
+
+        [DataMember(Name = "pickup_locations", EmitDefaultValue = false)]
+        public PickupLocation[] PickupLocations { get; set; }
     }
 }

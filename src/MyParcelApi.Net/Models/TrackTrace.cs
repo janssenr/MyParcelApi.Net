@@ -34,7 +34,7 @@ namespace MyParcelApi.Net.Models
         public ShipmentOptions Options { get; set; }
 
         [DataMember(Name = "pickup", EmitDefaultValue = false)]
-        public PickupLocation Pickup { get; set; }
+        public Location<string[]> Pickup { get; set; }
 
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public TrackTraceStatus Status { get; set; }
@@ -46,6 +46,6 @@ namespace MyParcelApi.Net.Models
         public string DeliveryMomentType { get; set; }
 
         [DataMember(Name = "delivery_moment", EmitDefaultValue = false)]
-        public DeliveryMoment DeliveryMoment { get; set; }
+        public Moment DeliveryMoment { get; set; }
     }
 }
