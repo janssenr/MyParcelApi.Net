@@ -21,7 +21,7 @@ namespace MyParcelApi.Tests
         [Test]
         public void GetDeliveryOptionsForPostalCodeAndNumberAndCarrier()
         {
-            var response = _client.GetDeliveryOptions("NL", "2132WT", "66", Carrier.PostNl);
+            var response = _client.GetDeliveryOptions("NL", "2132WT", "66", Platform.MyParcel, Carrier.PostNl);
             response.Wait();
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Result);
@@ -32,7 +32,7 @@ namespace MyParcelApi.Tests
         [Test]
         public void GetDeliveryOptionsForPostalCodeAndNumberAndCarrierAndCutoffTimeAndDropoffDaysAndDropoffDelayAndDeliverydaysWindowAndDeliveryType()
         {
-            var response = _client.GetDeliveryOptions("NL", "2132WT", "66", Carrier.PostNl, cutoffTime: new TimeSpan(16, 0, 0), dropoffDays: new [] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday }, dropoffDelay: 0, deliverydaysWindow: 2, excludeDeliveryType: new[] { DeliveryType.Morning });
+            var response = _client.GetDeliveryOptions("NL", "2132WT", "66", Platform.MyParcel, Carrier.PostNl, cutoffTime: new TimeSpan(16, 0, 0), dropoffDays: new [] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday }, dropoffDelay: 0, deliverydaysWindow: 2, excludeDeliveryType: new[] { DeliveryType.Morning });
             response.Wait();
             Assert.IsNotNull(response);
             Assert.IsNotNull(response.Result);
