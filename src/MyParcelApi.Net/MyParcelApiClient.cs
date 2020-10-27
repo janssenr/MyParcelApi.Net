@@ -222,7 +222,7 @@ namespace MyParcelApi.Net
             var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
-                return JsonHelper.Deserialize<ApiWrapper>(jsonResult, "yyyy-MM-ddTHH:mm:sszzz").Data.Shipments;
+                return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.Shipments;
             }
             return await HandleResponseError<Shipment[]>(response);
         }

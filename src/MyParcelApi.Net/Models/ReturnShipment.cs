@@ -20,6 +20,9 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "name", EmitDefaultValue = false, IsRequired = true)]
         public string Name { get; set; }
 
+        [DataMember(Name = "sender", EmitDefaultValue = false, IsRequired = false)]
+        public Address Sender { get; set; }
+
         [DataMember(Name = "options", EmitDefaultValue = false, IsRequired = false)]
         public ShipmentOptions Options { get; set; }
     }

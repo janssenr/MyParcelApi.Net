@@ -1,9 +1,9 @@
 ﻿namespace MyParcelApi.Net.Models
 {
-  public enum Platform
-  {
-    MyParcel,
-    Flespakket,
-    Belgie
-  }
+    public enum Platform
+    {
+        MyParcel,
+        Flespakket,
+        Belgie
+    }
 }
