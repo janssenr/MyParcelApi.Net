@@ -19,7 +19,7 @@ namespace MyParcelApi.Net.Exceptions
         public string[] Fields { get; set; }
 
         [DataMember(Name = "human", EmitDefaultValue = false, IsRequired = false)]
-        private dynamic _human;
+        private object _human;
 
         public string[] Human
         {
@@ -28,17 +28,18 @@ namespace MyParcelApi.Net.Exceptions
                 var obj = _human;
                 if (obj is string)
                 {
-                    return new[] { (string)obj };
+                    return new[] { obj as string };
                 }
                 if (obj is Array)
                 {
-                    int length = ((object[])obj).Length;
-                    var openinghours = new string[length];
+                    var objArr = obj as List<string>;
+                    int length = objArr.Count;
+                    var errors = new string[length];
                     for (int i = 0; i < length; i++)
                     {
-                        openinghours[i] = obj[i].ToString();
+                        errors[i] = objArr[i].ToString();
                     }
-                    return openinghours;
+                    return errors;
                 }
                 return new string[0];
             }

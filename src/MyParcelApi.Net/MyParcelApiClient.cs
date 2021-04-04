@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,7 +12,6 @@ using MyParcelApi.Net.Exceptions;
 using MyParcelApi.Net.Helpers;
 using MyParcelApi.Net.Models;
 using MyParcelApi.Net.Wrappers;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MyParcelApi.Net
