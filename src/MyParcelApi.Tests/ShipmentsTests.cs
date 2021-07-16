@@ -414,7 +414,7 @@ namespace MyParcelApi.Tests
                         Signature = true,
                         Return = false
                     },
-                    Pickup = new Location<string[]>
+                    Pickup = new PickupLocation
                     {
                         PostalCode = "2132BH",
                         Street = "Burgemeester van Stamplein",
