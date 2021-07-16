@@ -3,7 +3,7 @@
 namespace MyParcelApi.Net.Models
 {
     [DataContract]
-    public class LocationTime
+    public class PickupOptionTime
     {
         [DataMember(Name = "start", EmitDefaultValue = false)]
         public string Start { get; set; }

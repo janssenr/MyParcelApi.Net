@@ -3,32 +3,16 @@
 namespace MyParcelApi.Net.Models
 {
     [DataContract]
-    public class Location<T>
+    public class PickupOptions<T>
     {
         [DataMember(Name = "date", EmitDefaultValue = false)]
         public string Date { get; set; }
 
         [DataMember(Name = "time", EmitDefaultValue = false)]
-        public LocationTime[] Times { get; set; }
-
-        [DataMember(Name = "location", EmitDefaultValue = false)]
-        private string LocationNameOld
-        {
-            get
-            {
-                return LocationName;
-            }
-            set
-            {
-                LocationName = value;
-            }
-        }
+        public PickupOptionTime[] Times { get; set; }
 
         [DataMember(Name = "location_name", EmitDefaultValue = false)]
         public string LocationName { get; set; }
-
-        [DataMember(Name = "location_code", EmitDefaultValue = false)]
-        public string LocationCode { get; set; }
 
         [DataMember(Name = "retail_network_id", EmitDefaultValue = false)]
         public string RetailNetworkId { get; set; }
@@ -44,9 +28,6 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "city", EmitDefaultValue = false, IsRequired = false)]
         public string City { get; set; }
-
-        [DataMember(Name = "cc", EmitDefaultValue = false, IsRequired = false)]
-        public string Country { get; set; }
 
         [DataMember(Name = "start_time", EmitDefaultValue = false)]
         public string StartTime { get; set; }
@@ -74,5 +55,12 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "longitude", EmitDefaultValue = false)]
         public string Longitude { get; set; }
+
+
+        //[DataMember(Name = "location_code", EmitDefaultValue = false)]
+        //public string LocationCode { get; set; }
+
+        //[DataMember(Name = "cc", EmitDefaultValue = false, IsRequired = false)]
+        //public string Country { get; set; }
     }
 }

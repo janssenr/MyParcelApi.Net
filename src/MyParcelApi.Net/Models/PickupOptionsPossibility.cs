@@ -3,7 +3,7 @@
 namespace MyParcelApi.Net.Models
 {
     [DataContract]
-    public class PickupLocationPossibility
+    public class PickupOptionsPossibility
     {
         [DataMember(Name = "delivery_type_id", EmitDefaultValue = false, IsRequired = false)]
         public int DeliveryTypeId { get; set; }
