@@ -34,7 +34,7 @@ namespace MyParcelApi.Net.Models
         public ShipmentOptions Options { get; set; }
 
         [DataMember(Name = "pickup", EmitDefaultValue = false)]
-        public PickupOptions<string[]> Pickup { get; set; }
+        public PickupOption<string[]> Pickup { get; set; }
 
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public TrackTraceStatus Status { get; set; }
