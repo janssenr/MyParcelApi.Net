@@ -53,8 +53,14 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "longitude", EmitDefaultValue = false)]
         public string Longitude { get; set; }
 
+        [DataMember(Name = "location_name", EmitDefaultValue = false)]
+        public string LocationName { get; set; }
+
         [DataMember(Name = "location_code", EmitDefaultValue = false)]
         public string LocationCode { get; set; }
+
+        [DataMember(Name = "retail_network_id", EmitDefaultValue = false)]
+        public string RetailNetworkId { get; set; }
 
         //[DataMember(Name = "cc", EmitDefaultValue = false, IsRequired = false)]
         //public string Country { get; set; }

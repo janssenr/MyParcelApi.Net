@@ -6,7 +6,7 @@
 		<TargetFramework>net451</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>MyParcelApi</PackageId>
-		<Version>1.0.18</Version>
+		<Version>1.0.19</Version>
 		<Authors>Rob Janssen</Authors>
 		<Company />
 		<Description>A C#/.net wrapper for the MyParcel.nl API</Description>
@@ -15,7 +15,7 @@
 		<PackageProjectUrl>https://github.com/janssenr/MyParcelApi.Net</PackageProjectUrl>
 		<PackageIcon>favicon-96x96.png</PackageIcon>
 		<PackageTags>myparcel postnl api rest data</PackageTags>
-		<PackageReleaseNotes>Add ShipmentPickupLocation object and fixed GetPickupLocationsV2</PackageReleaseNotes>
+		<PackageReleaseNotes>Added LocationName and RetailNetworkId to PickupOption</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net451'">
