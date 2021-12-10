@@ -30,7 +30,7 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "status", EmitDefaultValue = false, IsRequired = false)]
         public ShipmentStatus Status { get; set; }
 
-        [DataMember(Name = "options", EmitDefaultValue = false, IsRequired = true)]
+        [DataMember(Name = "options", EmitDefaultValue = false, IsRequired = false)]
         public ShipmentOptions Options { get; set; }
 
         [DataMember(Name = "general_settings", EmitDefaultValue = false, IsRequired = false)]

@@ -60,7 +60,7 @@ namespace MyParcelApi.Net
             };
             var content = new StringContent(JsonHelper.Serialize(apiWrapper));
             content.Headers.Clear();
-            content.Headers.Add("Content-Type", "application/vnd.shipment+json;charset=utf-8");
+            content.Headers.Add("Content-Type", "application/vnd.shipment+json;charset=utf-8;version=1.1");
             var response = await _httpClient.PostAsync("shipments", content).ConfigureAwait(false);
             var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
