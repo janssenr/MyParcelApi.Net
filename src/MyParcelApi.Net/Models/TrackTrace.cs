@@ -36,6 +36,12 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "pickup", EmitDefaultValue = false)]
         public PickupOption<string[]> Pickup { get; set; }
 
+        [DataMember(Name = "delayed", EmitDefaultValue = false)]
+        public bool Delayed { get; set; }
+
+        [DataMember(Name = "location", EmitDefaultValue = false)]
+        public TrackTraceLocation Location { get; set; }
+
         [DataMember(Name = "status", EmitDefaultValue = false)]
         public TrackTraceStatus Status { get; set; }
 
