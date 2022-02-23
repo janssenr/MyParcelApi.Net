@@ -344,6 +344,37 @@ namespace MyParcelApi.Net
         }
 
         /// <summary>
+        /// Get detailed track and trace information.
+        /// </summary>
+        /// <param name="barcode">The barcode for which to fetch the track and trace information.</param>
+        /// <param name="postalCode">The postal code for which to fetch the track and trace information.</param>
+        /// <param name="country">The country for which to fetch the track and trace information.</param>
+        /// <returns>Upon success an array of TrackTrace objects is returned</returns>
+        public async Task<TrackTrace[]> TrackShipment(string barcode, string postalCode, string country = null)
+        {
+            var urlBuilder = new StringBuilder("tracktraces/");
+
+            var parameters = new Dictionary<string, string>
+            {
+                { "barcode", barcode.ToString() },
+                { "postal_code", postalCode.ToString() }
+            };
+            if (!string.IsNullOrWhiteSpace(country))
+                parameters.Add("cc", country);
+            urlBuilder.Append(GetQueryString(parameters));
+
+            _httpClient.DefaultRequestHeaders.Remove("Authorization");
+
+            var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+            var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+            if (response.IsSuccessStatusCode)
+            {
+                return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.TrackTraces;
+            }
+            return await HandleResponseError<TrackTrace[]>(response);
+        }
+
+        /// <summary>
         /// Get the delivery options for a given location and carrier. If none of the optional parameters are specified then the following default will be used: If a request is made for the delivery options between Friday after the default cutoff_time (15h30) and Monday before the default cutoff_time (15h30) then Tuesday will be shown as the next possible delivery date.
         /// </summary>
         /// <param name="countryCode">The country code for which to fetch the delivery options</param>
