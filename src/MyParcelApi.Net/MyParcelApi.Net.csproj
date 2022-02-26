@@ -6,7 +6,7 @@
 		<TargetFramework>net451</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>MyParcelApi</PackageId>
-		<Version>1.0.22</Version>
+		<Version>1.0.23</Version>
 		<Authors>Rob Janssen</Authors>
 		<Company />
 		<Description>A C#/.net wrapper for the MyParcel.nl API</Description>
@@ -15,7 +15,7 @@
 		<PackageProjectUrl>https://github.com/janssenr/MyParcelApi.Net</PackageProjectUrl>
 		<PackageIcon>favicon-96x96.png</PackageIcon>
 		<PackageTags>myparcel postnl api rest data</PackageTags>
-		<PackageReleaseNotes>Added TrackShipment function for barcode, postalCode and optional country</PackageReleaseNotes>
+		<PackageReleaseNotes>Fix TrackTraceLocation Longitude and Latitude can be null</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net451'">

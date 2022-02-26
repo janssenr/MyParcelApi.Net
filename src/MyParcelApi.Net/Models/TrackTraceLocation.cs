@@ -27,9 +27,9 @@ namespace MyParcelApi.Net.Models
         public string NumberSuffix { get; set; }
 
         [DataMember(Name = "longitude", EmitDefaultValue = false)]
-        public float Longitude { get; set; }
+        public float? Longitude { get; set; }
 
         [DataMember(Name = "latitude", EmitDefaultValue = false)]
-        public float Latitude { get; set; }
+        public float? Latitude { get; set; }
     }
 }
