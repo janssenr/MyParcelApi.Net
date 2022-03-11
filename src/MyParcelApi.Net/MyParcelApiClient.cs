@@ -469,7 +469,7 @@ namespace MyParcelApi.Net
         public async Task<Delivery[]> GetDeliveryOptionsV2(string countryCode, string postalCode, string number,
                 Platform? platform = null, Carrier? carier = null, TimeSpan? deliveryTime = null, DateTime? deliveryDate = null, TimeSpan? cutoffTime = null,
                 DayOfWeek[] dropoffDays = null, bool? mondayDelivery = null, int? dropoffDelay = null, int? deliverydaysWindow = null,
-                DeliveryType[] excludeDeliveryType = null, double? latitude = null, double? longitude = null)
+                DeliveryType[] excludeDeliveryType = null, bool? excludeParcelLockers = null, double? latitude = null, double? longitude = null)
         {
             if (dropoffDelay.HasValue && (dropoffDelay.Value < 0 || dropoffDelay.Value > 14))
                 throw new ArgumentOutOfRangeException("Parameter dropoffDays must be between 0 and 14");
@@ -505,6 +505,8 @@ namespace MyParcelApi.Net
                 parameters.Add("deliverydays_window", deliverydaysWindow.Value.ToString());
             if (excludeDeliveryType != null && excludeDeliveryType.Length > 0)
                 parameters.Add("exclude_delivery_type", string.Join(";", excludeDeliveryType.Select(edt => (int)edt)));
+            if (excludeParcelLockers.HasValue)
+                parameters.Add("exclude_parcel_lockers", Convert.ToInt32(excludeParcelLockers.Value).ToString());
             if (latitude.HasValue)
                 parameters.Add("latitude", latitude.Value.ToString(CultureInfo.InvariantCulture));
             if (longitude.HasValue)
