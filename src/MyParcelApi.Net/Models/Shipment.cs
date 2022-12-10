@@ -104,7 +104,25 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "secondary_shipments", EmitDefaultValue = false)]
         public Shipment[] SecondaryShipments { get; set; }
 
-        //[DataMember(Name = "multi_collo_main_shipment_id", EmitDefaultValue = true)]
+        //[DataMember(Name = "collection_contact", EmitDefaultValue = false)]
+        //public string CollectionContact { get; set; }
+
+        //[DataMember(Name = "multi_collo_main_shipment_id", EmitDefaultValue = false)]
         //public int? MultiColloMainShipmentId { get; set; }
+
+        [DataMember(Name = "external_identifier", EmitDefaultValue = false)]
+        public string ExternalIdentifier { get; set; }
+
+        [DataMember(Name = "delayed", EmitDefaultValue = false)]
+        public bool Delayed { get; set; }
+
+        [DataMember(Name = "delivered", EmitDefaultValue = false)]
+        public bool Delivered { get; set; }
+
+        [DataMember(Name = "link_consumer_portal", EmitDefaultValue = false)]
+        public string LinkConsumerPortal { get; set; }
+
+        //[DataMember(Name = "partner_tracktraces", EmitDefaultValue = false)]
+        //public TrackTrace[] PartnerTracktraces { get; set; }
     }
 }

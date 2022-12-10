@@ -6,7 +6,7 @@
 		<TargetFramework>net451</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>MyParcelApi</PackageId>
-		<Version>1.0.25</Version>
+		<Version>1.0.26</Version>
 		<Authors>Rob Janssen</Authors>
 		<Company />
 		<Description>A C#/.net wrapper for the MyParcel.nl API</Description>
@@ -15,7 +15,7 @@
 		<PackageProjectUrl>https://github.com/janssenr/MyParcelApi.Net</PackageProjectUrl>
 		<PackageIcon>favicon-96x96.png</PackageIcon>
 		<PackageTags>myparcel postnl api rest data</PackageTags>
-		<PackageReleaseNotes>Bump Newtonsoft.Json from 13.0.1 to 13.0.2</PackageReleaseNotes>
+		<PackageReleaseNotes>Make extra Shipment Fields optional because of error (set EmitDefaultValue to false)</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 	</PropertyGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net451'">
