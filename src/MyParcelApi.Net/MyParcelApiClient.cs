@@ -692,17 +692,20 @@ namespace MyParcelApi.Net
                             }
                             else
                             {
-                                foreach (JObject errorCode in errors)
+                                foreach (JProperty childError in error.Children())
                                 {
-                                    foreach (JProperty childError in errorCode.Children())
+                                    switch (childError.Type)
                                     {
-                                        foreach (JObject child in childError.Children())
-                                        {
-                                            if (child.ContainsKey("fields") && child.ContainsKey("human"))
+                                        case JTokenType.Array:
+                                        case JTokenType.Object:
+                                            foreach (JObject child in childError.Children())
                                             {
-                                                message += GetMessages(child);
+                                                if (child.ContainsKey("fields") && child.ContainsKey("human"))
+                                                {
+                                                    message += GetMessages(child);
+                                                }
                                             }
-                                        }
+                                            break;
                                     }
                                 }
                             }
