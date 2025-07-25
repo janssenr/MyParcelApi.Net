@@ -12,5 +12,5 @@ build_script:
 test_script:
   - ps: |
       $runner = ".\tools\NUnit.ConsoleRunner.3.17.0\tools\nunit3-console.exe"
-      $dll = "src\MyParcelApi.Tests\bin\Release\MyParcelApi.Tests.dll"
+      $dll = "src\MyParcelApi.Tests\bin\Release\net48\MyParcelApi.Tests.dll"
       & $runner $dll
