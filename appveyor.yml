@@ -3,7 +3,7 @@ version: 1.0.{build}
 image: Visual Studio 2022
 
 before_build:
-- dotnet restore src/MyParcelApi.Net.sln
+  - dotnet restore src/MyParcelApi.Net.sln
 
 build_script:
   - dotnet build src/MyParcelApi.Net.sln --configuration Release
