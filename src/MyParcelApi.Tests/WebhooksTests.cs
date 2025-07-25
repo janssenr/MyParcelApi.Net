@@ -17,8 +17,8 @@ namespace MyParcelApi.Tests
         [SetUp]
         public void SetUp()
         {
-			var apiKey = ConfigurationManager.AppSettings["ApiKey"];
-			if (string.IsNullOrEmpty(apiKey)) apiKey = Environment.GetEnvironmentVariable("ApiKey");
+			var apiKey = Environment.GetEnvironmentVariable("ApiKey");
+			if (string.IsNullOrEmpty(apiKey)) apiKey = ConfigurationManager.AppSettings["ApiKey"];
 			_client = new MyParcelApiClient(apiKey);
         }
 
