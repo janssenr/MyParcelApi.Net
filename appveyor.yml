@@ -7,3 +7,8 @@ before_build:
 
 build_script:
   - dotnet build src/MyParcelApi.Net.sln --configuration Release
+
+test_script:
+  - ps: |
+      $dll = "src\MyParcelApi.Tests\bin\Release\MyParcelApi.Tests.dll"
+      & "C:\Tools\NUnit\nunit3-console.exe" $dll

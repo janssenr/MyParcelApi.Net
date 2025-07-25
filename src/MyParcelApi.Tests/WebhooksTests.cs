@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using MyParcelApi.Net;
+﻿using MyParcelApi.Net;
 using MyParcelApi.Net.Models;
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
 
 namespace MyParcelApi.Tests
 {
@@ -16,8 +17,9 @@ namespace MyParcelApi.Tests
         [SetUp]
         public void SetUp()
         {
-            var apiKey = ConfigurationManager.AppSettings["ApiKey"];
-            _client = new MyParcelApiClient(apiKey);
+			var apiKey = ConfigurationManager.AppSettings["ApiKey"];
+			if (string.IsNullOrEmpty(apiKey)) apiKey = Environment.GetEnvironmentVariable("ApiKey");
+			_client = new MyParcelApiClient(apiKey);
         }
 
         [Test]

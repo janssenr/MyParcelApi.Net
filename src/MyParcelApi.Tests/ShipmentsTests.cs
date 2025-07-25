@@ -17,8 +17,9 @@ namespace MyParcelApi.Tests
         [SetUp]
         public void SetUp()
         {
-            var apiKey = ConfigurationManager.AppSettings["ApiKey"];
-            _client = new MyParcelApiClient(apiKey);
+			var apiKey = ConfigurationManager.AppSettings["ApiKey"];
+			if (string.IsNullOrEmpty(apiKey)) apiKey = Environment.GetEnvironmentVariable("ApiKey");
+			_client = new MyParcelApiClient(apiKey);
         }
 
         [Test, Ignore("Deprecated")]
