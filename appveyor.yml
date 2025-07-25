@@ -4,13 +4,13 @@ image: Visual Studio 2022
 
 before_build:
   - dotnet restore src/MyParcelApi.Net.sln
-  - nuget install NUnit.ConsoleRunner -Version 3.17.0 -OutputDirectory tools
+  - nuget install NUnit.ConsoleRunner -Version 3.20.1 -OutputDirectory tools
 
 build_script:
   - dotnet build src/MyParcelApi.Net.sln --configuration Release
 
 test_script:
   - ps: |
-      $runner = ".\tools\NUnit.ConsoleRunner.3.17.0\tools\nunit3-console.exe"
+      $runner = ".\tools\NUnit.ConsoleRunner.3.20.1\tools\nunit3-console.exe"
       $dll = "src\MyParcelApi.Tests\bin\Release\net48\MyParcelApi.Tests.dll"
       & $runner $dll
