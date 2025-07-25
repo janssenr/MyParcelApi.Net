@@ -332,6 +332,7 @@ namespace MyParcelApi.Tests
                         Country = "JP",
                         City = "さいたま市",
                         Street = "埼玉県さいたま市浦和区 常盤9－21－21",
+                        PostalCode = "330-0061",
                         Person = "Tanaka san",
                         Company = "さいたま国際キリスト教会",
                         Email = "saitamakyokai@gmail.com",
@@ -359,7 +360,7 @@ namespace MyParcelApi.Tests
                                     Amount = 7000,
                                     Currency = "EUR"
                                 },
-                                Classification = "0181",
+                                Classification = "12345678",
                                 Country = "NL"
                             },
                             new CustomsItem
@@ -372,7 +373,7 @@ namespace MyParcelApi.Tests
                                     Amount = 1000,
                                     Currency = "EUR"
                                 },
-                                Classification = "0181",
+                                Classification = "12345678",
                                 Country = "BE"
                             }
                         }
@@ -493,13 +494,13 @@ namespace MyParcelApi.Tests
             response.Wait();
             ClassicAssert.IsNotNull(response);
             ClassicAssert.IsNotNull(response.Result);
-            ClassicAssert.AreEqual(true, response.Result.Link.StartsWith("https://backoffice.myparcel.nl/retour/"));
+            ClassicAssert.AreEqual(true, response.Result.Link.StartsWith("https://myparcel.me/returns/"));
         }
 
         [Test]
         public void GetShipmentLabel()
         {
-            var response = _client.GetShipmentLabel(new[] { 21811070, 21810315 }, "A4", new[] { 3, 4 });
+            var response = _client.GetShipmentLabel(new[] { 24681819, 24291447 }, "A4", new[] { 3, 4 });
             response.Wait();
             ClassicAssert.IsNotNull(response);
             ClassicAssert.IsNotNull(response.Result);
