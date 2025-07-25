@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
 		<RootNamespace>MyParcelApi.Net</RootNamespace>
 		<AssemblyName>MyParcelApi.Net</AssemblyName>
@@ -10,7 +10,7 @@
 		<Authors>Rob Janssen</Authors>
 		<Company />
 		<Description>A C#/.net wrapper for the MyParcel.nl API</Description>
-		<Copyright>Copyright Rob Janssen 2024</Copyright>
+		<Copyright>Copyright Rob Janssen 2025</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/janssenr/MyParcelApi.Net</PackageProjectUrl>
 		<PackageIcon>favicon-96x96.png</PackageIcon>
