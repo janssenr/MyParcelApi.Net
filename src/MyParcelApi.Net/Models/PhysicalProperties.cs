@@ -32,7 +32,7 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "volume", EmitDefaultValue = false)]
         public int Volume { get; set; }
 
-        [DataMember(Name = "weight", EmitDefaultValue = false)]
+        [DataMember(Name = "weight", EmitDefaultValue = true)]
         public int Weight { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using MyParcelApi.Net;
 using MyParcelApi.Net.Models;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace MyParcelApi.Tests
 {
@@ -490,9 +491,9 @@ namespace MyParcelApi.Tests
         {
             var response = _client.GenerateUnrelatedReturnShipment();
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(response.Result);
-            Assert.AreEqual(true, response.Result.Link.StartsWith("https://backoffice.myparcel.nl/retour/"));
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsNotNull(response.Result);
+            ClassicAssert.AreEqual(true, response.Result.Link.StartsWith("https://backoffice.myparcel.nl/retour/"));
         }
 
         [Test]
@@ -500,8 +501,8 @@ namespace MyParcelApi.Tests
         {
             var response = _client.GetShipmentLabel(new[] { 21811070, 21810315 }, "A4", new[] { 3, 4 });
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(response.Result);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsNotNull(response.Result);
         }
 
         [Test]
@@ -509,17 +510,17 @@ namespace MyParcelApi.Tests
         {
             var response = _client.TrackShipment(new[] { 21811070, 21810315 });
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(response.Result);
-            Assert.IsTrue(response.Result.Length > 0);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsNotNull(response.Result);
+            ClassicAssert.IsTrue(response.Result.Length > 0);
         }
 
         private void ProcesShipments(List<Shipment> conceptShipments, bool createLabels)
         {
             var response = _client.AddShipment(conceptShipments.ToArray());
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Result.Length > 0);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsTrue(response.Result.Length > 0);
 
             var shipmentIds = response.Result.Select(obj => obj.Id).ToArray();
 
@@ -536,8 +537,8 @@ namespace MyParcelApi.Tests
         {
             var response = _client.AddReturnShipment(conceptReturnShipments.ToArray());
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Result.Length > 0);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsTrue(response.Result.Length > 0);
 
             var shipmentIds = response.Result.Select(obj => obj.Id).ToArray();
 
@@ -554,8 +555,8 @@ namespace MyParcelApi.Tests
         {
             var response = _client.AddUnrelatedReturnShipment(conceptReturnShipments.ToArray());
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsTrue(response.Result.Length > 0);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsTrue(response.Result.Length > 0);
 
             var shipmentIds = response.Result.Select(obj => obj.Id).ToArray();
 
@@ -572,77 +573,77 @@ namespace MyParcelApi.Tests
         {
             var response = _client.GetShipmentLabelDownloadLink(shipmentIds);
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(response.Result);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsNotNull(response.Result);
         }
 
         private void ValidateShipments(int[] shipmentIds, List<Shipment> conceptShipments, bool validateLabel)
         {
             var shipments = _client.GetShipment();
             shipments.Wait();
-            Assert.IsNotNull(shipments);
-            Assert.IsTrue(shipments.Result.Length > 0);
+            ClassicAssert.IsNotNull(shipments);
+            ClassicAssert.IsTrue(shipments.Result.Length > 0);
             foreach (var shipment in shipments.Result)
             {
                 var index = shipmentIds.ToList().IndexOf(shipmentIds.FirstOrDefault(obj => obj == shipment.Id));
                 if (index >= 0)
                 {
                     var conceptShipment = conceptShipments[index];
-                    Assert.AreEqual(conceptShipment.Recipient.Country, shipment.Recipient.Country);
-                    Assert.AreEqual(conceptShipment.Recipient.Person, shipment.Recipient.Person);
-                    Assert.AreEqual(conceptShipment.Recipient.Company, shipment.Recipient.Company);
-                    Assert.AreEqual(conceptShipment.Recipient.Street, shipment.Recipient.Street);
-                    Assert.AreEqual(conceptShipment.Recipient.StreetAdditionalInfo, shipment.Recipient.StreetAdditionalInfo);
-                    Assert.AreEqual(conceptShipment.Recipient.Number, shipment.Recipient.Number);
-                    Assert.AreEqual(conceptShipment.Recipient.NumberSuffix, shipment.Recipient.NumberSuffix);
-                    Assert.AreEqual(conceptShipment.Recipient.PostalCode, shipment.Recipient.PostalCode);
-                    Assert.AreEqual(conceptShipment.Recipient.City, shipment.Recipient.City);
-                    Assert.AreEqual(conceptShipment.Recipient.Email, shipment.Recipient.Email);
-                    Assert.AreEqual(conceptShipment.Recipient.Phone, shipment.Recipient.Phone);
-                    Assert.AreEqual(conceptShipment.Options.PackageType, shipment.Options.PackageType);
-                    Assert.AreEqual(conceptShipment.Options.DeliveryType, shipment.Options.DeliveryType);
-                    Assert.AreEqual(conceptShipment.Options.DeliveryDate, shipment.Options.DeliveryDate);
-                    Assert.AreEqual(conceptShipment.Options.LargeFormat, shipment.Options.LargeFormat);
-                    Assert.AreEqual(conceptShipment.Options.OnlyRecipient, shipment.Options.OnlyRecipient);
-                    Assert.AreEqual(conceptShipment.Options.Signature, shipment.Options.Signature);
-                    Assert.AreEqual(conceptShipment.Options.Return, shipment.Options.Return);
-                    Assert.AreEqual(conceptShipment.Options.LabelDescription, shipment.Options.LabelDescription);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.Country, shipment.Recipient.Country);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.Person, shipment.Recipient.Person);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.Company, shipment.Recipient.Company);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.Street, shipment.Recipient.Street);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.StreetAdditionalInfo, shipment.Recipient.StreetAdditionalInfo);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.Number, shipment.Recipient.Number);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.NumberSuffix, shipment.Recipient.NumberSuffix);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.PostalCode, shipment.Recipient.PostalCode);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.City, shipment.Recipient.City);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.Email, shipment.Recipient.Email);
+                    ClassicAssert.AreEqual(conceptShipment.Recipient.Phone, shipment.Recipient.Phone);
+                    ClassicAssert.AreEqual(conceptShipment.Options.PackageType, shipment.Options.PackageType);
+                    ClassicAssert.AreEqual(conceptShipment.Options.DeliveryType, shipment.Options.DeliveryType);
+                    ClassicAssert.AreEqual(conceptShipment.Options.DeliveryDate, shipment.Options.DeliveryDate);
+                    ClassicAssert.AreEqual(conceptShipment.Options.LargeFormat, shipment.Options.LargeFormat);
+                    ClassicAssert.AreEqual(conceptShipment.Options.OnlyRecipient, shipment.Options.OnlyRecipient);
+                    ClassicAssert.AreEqual(conceptShipment.Options.Signature, shipment.Options.Signature);
+                    ClassicAssert.AreEqual(conceptShipment.Options.Return, shipment.Options.Return);
+                    ClassicAssert.AreEqual(conceptShipment.Options.LabelDescription, shipment.Options.LabelDescription);
                     if (conceptShipment.Options.Insurance != null)
                     {
-                        Assert.AreEqual(conceptShipment.Options.Insurance.Amount, shipment.Options.Insurance.Amount);
-                        Assert.AreEqual(conceptShipment.Options.Insurance.Currency, shipment.Options.Insurance.Currency);
+                        ClassicAssert.AreEqual(conceptShipment.Options.Insurance.Amount, shipment.Options.Insurance.Amount);
+                        ClassicAssert.AreEqual(conceptShipment.Options.Insurance.Currency, shipment.Options.Insurance.Currency);
                     }
                     if (conceptShipment.Pickup != null)
                     {
-                        Assert.AreEqual(conceptShipment.Pickup.PostalCode, shipment.Pickup.PostalCode);
-                        Assert.AreEqual(conceptShipment.Pickup.Street, shipment.Pickup.Street);
-                        Assert.AreEqual(conceptShipment.Pickup.City, shipment.Pickup.City);
-                        Assert.AreEqual(conceptShipment.Pickup.Number, shipment.Pickup.Number);
-                        Assert.AreEqual(conceptShipment.Pickup.LocationName, shipment.Pickup.LocationName);
+                        ClassicAssert.AreEqual(conceptShipment.Pickup.PostalCode, shipment.Pickup.PostalCode);
+                        ClassicAssert.AreEqual(conceptShipment.Pickup.Street, shipment.Pickup.Street);
+                        ClassicAssert.AreEqual(conceptShipment.Pickup.City, shipment.Pickup.City);
+                        ClassicAssert.AreEqual(conceptShipment.Pickup.Number, shipment.Pickup.Number);
+                        ClassicAssert.AreEqual(conceptShipment.Pickup.LocationName, shipment.Pickup.LocationName);
                     }
                     if (conceptShipment.CustomsDeclaration != null)
                     {
-                        Assert.AreEqual(conceptShipment.CustomsDeclaration.Contents, shipment.CustomsDeclaration.Contents);
-                        Assert.AreEqual(conceptShipment.CustomsDeclaration.Invoice, shipment.CustomsDeclaration.Invoice);
-                        Assert.AreEqual(conceptShipment.CustomsDeclaration.Weight, shipment.CustomsDeclaration.Weight);
+                        ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Contents, shipment.CustomsDeclaration.Contents);
+                        ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Invoice, shipment.CustomsDeclaration.Invoice);
+                        ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Weight, shipment.CustomsDeclaration.Weight);
                         for (int i = 0; i < conceptShipment.CustomsDeclaration.Items.Length; i++)
                         {
-                            Assert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Description, shipment.CustomsDeclaration.Items[i].Description);
-                            Assert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Amount, shipment.CustomsDeclaration.Items[i].Amount);
-                            Assert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Weight, shipment.CustomsDeclaration.Items[i].Weight);
-                            Assert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].ItemValue.Amount, shipment.CustomsDeclaration.Items[i].ItemValue.Amount);
-                            Assert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].ItemValue.Currency, shipment.CustomsDeclaration.Items[i].ItemValue.Currency);
-                            Assert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Classification, shipment.CustomsDeclaration.Items[i].Classification);
-                            Assert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Country, shipment.CustomsDeclaration.Items[i].Country);
+                            ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Description, shipment.CustomsDeclaration.Items[i].Description);
+                            ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Amount, shipment.CustomsDeclaration.Items[i].Amount);
+                            ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Weight, shipment.CustomsDeclaration.Items[i].Weight);
+                            ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].ItemValue.Amount, shipment.CustomsDeclaration.Items[i].ItemValue.Amount);
+                            ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].ItemValue.Currency, shipment.CustomsDeclaration.Items[i].ItemValue.Currency);
+                            ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Classification, shipment.CustomsDeclaration.Items[i].Classification);
+                            ClassicAssert.AreEqual(conceptShipment.CustomsDeclaration.Items[i].Country, shipment.CustomsDeclaration.Items[i].Country);
                         }
                     }
                     if (conceptShipment.PhysicalProperties != null)
                     {
-                        Assert.AreEqual(conceptShipment.PhysicalProperties.Weight, shipment.PhysicalProperties.Weight);
+                        ClassicAssert.AreEqual(conceptShipment.PhysicalProperties.Weight, shipment.PhysicalProperties.Weight);
                     }
                     if (validateLabel)
                     {
-                        Assert.AreEqual(true, shipment.Barcode.StartsWith("3SMYPA"));
+                        ClassicAssert.AreEqual(true, shipment.Barcode.StartsWith("3SMYPA"));
                     }
                 }
             }
@@ -652,31 +653,31 @@ namespace MyParcelApi.Tests
         {
             var shipments = _client.GetShipment();
             shipments.Wait();
-            Assert.IsNotNull(shipments);
-            Assert.IsTrue(shipments.Result.Length > 0);
+            ClassicAssert.IsNotNull(shipments);
+            ClassicAssert.IsTrue(shipments.Result.Length > 0);
             foreach (var shipment in shipments.Result)
             {
                 var index = shipmentIds.ToList().IndexOf(shipmentIds.FirstOrDefault(obj => obj == shipment.Id));
                 if (index >= 0)
                 {
                     var conceptReturnShipment = conceptReturnShipments[index];
-                    Assert.AreEqual(conceptReturnShipment.Parent, shipment.ParentId);
-                    Assert.AreEqual(conceptReturnShipment.Options.PackageType, shipment.Options.PackageType);
-                    Assert.AreEqual(conceptReturnShipment.Options.DeliveryType, shipment.Options.DeliveryType);
-                    Assert.AreEqual(conceptReturnShipment.Options.DeliveryDate, shipment.Options.DeliveryDate);
-                    Assert.AreEqual(conceptReturnShipment.Options.LargeFormat, shipment.Options.LargeFormat);
-                    //Assert.AreEqual(conceptReturnShipment.Options.OnlyRecipient, shipment.Options.OnlyRecipient);
-                    //Assert.AreEqual(conceptReturnShipment.Options.Signature, shipment.Options.Signature);
-                    Assert.AreEqual(conceptReturnShipment.Options.Return, shipment.Options.Return);
-                    //Assert.AreEqual(conceptReturnShipment.Options.LabelDescription, shipment.Options.LabelDescription);
+                    ClassicAssert.AreEqual(conceptReturnShipment.Parent, shipment.ParentId);
+                    ClassicAssert.AreEqual(conceptReturnShipment.Options.PackageType, shipment.Options.PackageType);
+                    ClassicAssert.AreEqual(conceptReturnShipment.Options.DeliveryType, shipment.Options.DeliveryType);
+                    ClassicAssert.AreEqual(conceptReturnShipment.Options.DeliveryDate, shipment.Options.DeliveryDate);
+                    ClassicAssert.AreEqual(conceptReturnShipment.Options.LargeFormat, shipment.Options.LargeFormat);
+                    //ClassicAssert.AreEqual(conceptReturnShipment.Options.OnlyRecipient, shipment.Options.OnlyRecipient);
+                    //ClassicAssert.AreEqual(conceptReturnShipment.Options.Signature, shipment.Options.Signature);
+                    ClassicAssert.AreEqual(conceptReturnShipment.Options.Return, shipment.Options.Return);
+                    //ClassicAssert.AreEqual(conceptReturnShipment.Options.LabelDescription, shipment.Options.LabelDescription);
                     if (conceptReturnShipment.Options.Insurance != null)
                     {
-                        //Assert.AreEqual(conceptReturnShipment.Options.Insurance.Amount, shipment.Options.Insurance.Amount);
-                        Assert.AreEqual(conceptReturnShipment.Options.Insurance.Currency, shipment.Options.Insurance.Currency);
+                        //ClassicAssert.AreEqual(conceptReturnShipment.Options.Insurance.Amount, shipment.Options.Insurance.Amount);
+                        ClassicAssert.AreEqual(conceptReturnShipment.Options.Insurance.Currency, shipment.Options.Insurance.Currency);
                     }
                     if (validateLabel)
                     {
-                        Assert.AreEqual(true, shipment.Barcode.StartsWith("3SMYPA"));
+                        ClassicAssert.AreEqual(true, shipment.Barcode.StartsWith("3SMYPA"));
                     }
                 }
             }

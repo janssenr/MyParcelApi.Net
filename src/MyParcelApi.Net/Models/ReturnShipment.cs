@@ -25,5 +25,8 @@ namespace MyParcelApi.Net.Models
 
         [DataMember(Name = "options", EmitDefaultValue = false, IsRequired = false)]
         public ShipmentOptions Options { get; set; }
+
+        [DataMember(Name = "general_settings", EmitDefaultValue = false, IsRequired = false)]
+        public ShipmentGeneralSettings GeneralSettings { get; set; }
     }
 }

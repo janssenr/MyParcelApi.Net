@@ -11,7 +11,7 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "amount", EmitDefaultValue = false, IsRequired = true)]
         public int Amount { get; set; }
 
-        [DataMember(Name = "weight", EmitDefaultValue = false, IsRequired = true)]
+        [DataMember(Name = "weight", EmitDefaultValue = true, IsRequired = true)]
         public int Weight { get; set; }
 
         [DataMember(Name = "item_value", EmitDefaultValue = false, IsRequired = true)]

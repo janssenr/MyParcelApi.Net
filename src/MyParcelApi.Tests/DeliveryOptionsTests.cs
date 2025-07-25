@@ -3,6 +3,7 @@ using System.Configuration;
 using MyParcelApi.Net;
 using MyParcelApi.Net.Models;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 
 namespace MyParcelApi.Tests
 {
@@ -23,10 +24,10 @@ namespace MyParcelApi.Tests
         {
             var response = _client.GetDeliveryOptions("NL", "2132WT", "66", Platform.MyParcel, Carrier.PostNl);
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(response.Result);
-            Assert.IsTrue(response.Result.DeliveryOptions.Length > 0);
-            Assert.IsTrue(response.Result.PickupOptions.Length > 0);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsNotNull(response.Result);
+            ClassicAssert.IsTrue(response.Result.DeliveryOptions.Length > 0);
+            ClassicAssert.IsTrue(response.Result.PickupOptions.Length > 0);
         }
 
         [Test]
@@ -34,10 +35,10 @@ namespace MyParcelApi.Tests
         {
             var response = _client.GetDeliveryOptions("NL", "2132WT", "66", Platform.MyParcel, Carrier.PostNl, cutoffTime: new TimeSpan(16, 0, 0), dropoffDays: new [] { DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday, DayOfWeek.Thursday, DayOfWeek.Friday }, dropoffDelay: 0, deliverydaysWindow: 2, excludeDeliveryType: new[] { DeliveryType.Morning });
             response.Wait();
-            Assert.IsNotNull(response);
-            Assert.IsNotNull(response.Result);
-            Assert.IsTrue(response.Result.DeliveryOptions.Length > 0);
-            Assert.IsTrue(response.Result.PickupOptions.Length > 0);
+            ClassicAssert.IsNotNull(response);
+            ClassicAssert.IsNotNull(response.Result);
+            ClassicAssert.IsTrue(response.Result.DeliveryOptions.Length > 0);
+            ClassicAssert.IsTrue(response.Result.PickupOptions.Length > 0);
         }
     }
 }

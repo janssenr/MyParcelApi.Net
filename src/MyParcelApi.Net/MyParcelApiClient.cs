@@ -31,6 +31,8 @@ namespace MyParcelApi.Net
             if (string.IsNullOrWhiteSpace(apiKey))
                 throw new ArgumentException("Parameter apiKey needs a value");
 
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
             _httpClient = new HttpClient
             {
                 BaseAddress = new Uri(ApiBaseUrl)
@@ -698,7 +700,8 @@ namespace MyParcelApi.Net
                                     {
                                         case JTokenType.Array:
                                         case JTokenType.Object:
-                                            foreach (JObject child in childError.Children())
+										case JTokenType.Property:
+											foreach (JObject child in childError.Children())
                                             {
                                                 if (child.ContainsKey("fields") && child.ContainsKey("human"))
                                                 {

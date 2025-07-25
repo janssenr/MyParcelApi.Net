@@ -14,10 +14,10 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "postal_code", EmitDefaultValue = false, IsRequired = false)]
         public string PostalCode { get; set; }
 
-        [DataMember(Name = "city", EmitDefaultValue = false, IsRequired = true)]
+        [DataMember(Name = "city", EmitDefaultValue = false, IsRequired = false)]
         public string City { get; set; }
 
-        [DataMember(Name = "street", EmitDefaultValue = false, IsRequired = true)]
+        [DataMember(Name = "street", EmitDefaultValue = false, IsRequired = false)]
         public string Street { get; set; }
 
         [DataMember(Name = "street_additional_info", EmitDefaultValue = false, IsRequired = false)]
@@ -29,7 +29,7 @@ namespace MyParcelApi.Net.Models
         [DataMember(Name = "number_suffix", EmitDefaultValue = false, IsRequired = false)]
         public string NumberSuffix { get; set; }
 
-        [DataMember(Name = "person", EmitDefaultValue = false, IsRequired = false)]
+        [DataMember(Name = "person", EmitDefaultValue = false, IsRequired = true)]
         public string Person { get; set; }
 
         [DataMember(Name = "company", EmitDefaultValue = false, IsRequired = false)]

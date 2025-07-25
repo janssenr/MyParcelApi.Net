@@ -2,15 +2,15 @@
 	<PropertyGroup>
 		<RootNamespace>MyParcelApi.Net</RootNamespace>
 		<AssemblyName>MyParcelApi.Net</AssemblyName>
-		<TargetFrameworks>net451;netstandard2.0</TargetFrameworks>
-		<TargetFramework>net451</TargetFramework>
+		<TargetFrameworks>net48;netstandard2.0</TargetFrameworks>
+		<TargetFramework>net48</TargetFramework>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageId>MyParcelApi</PackageId>
 		<Version>1.0.27</Version>
 		<Authors>Rob Janssen</Authors>
 		<Company />
 		<Description>A C#/.net wrapper for the MyParcel.nl API</Description>
-		<Copyright>Copyright Rob Janssen 2023</Copyright>
+		<Copyright>Copyright Rob Janssen 2024</Copyright>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/janssenr/MyParcelApi.Net</PackageProjectUrl>
 		<PackageIcon>favicon-96x96.png</PackageIcon>
@@ -18,7 +18,7 @@
 		<PackageReleaseNotes>HandleResponseError</PackageReleaseNotes>
 		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 	</PropertyGroup>
-	<ItemGroup Condition="'$(TargetFramework)' == 'net451'">
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
 		<Reference Include="System.Net.Http" />
 	</ItemGroup>
 	<ItemGroup>
@@ -28,6 +28,6 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 	</ItemGroup>
 </Project>
