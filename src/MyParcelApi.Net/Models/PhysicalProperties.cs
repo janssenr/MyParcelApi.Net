@@ -21,18 +21,18 @@ namespace MyParcelApi.Net.Models
         public int? CarrierVolume { get; set; }
 
         [DataMember(Name = "height", EmitDefaultValue = false)]
-        public int Height { get; set; }
+        public int? Height { get; set; }
 
         [DataMember(Name = "width", EmitDefaultValue = false)]
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         [DataMember(Name = "length", EmitDefaultValue = false)]
-        public int Length { get; set; }
+        public int? Length { get; set; }
 
         [DataMember(Name = "volume", EmitDefaultValue = false)]
-        public int Volume { get; set; }
+        public int? Volume { get; set; }
 
         [DataMember(Name = "weight", EmitDefaultValue = true)]
-        public int Weight { get; set; }
+        public int? Weight { get; set; }
     }
 }
