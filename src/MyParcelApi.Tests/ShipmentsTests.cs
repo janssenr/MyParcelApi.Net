@@ -501,7 +501,7 @@ namespace MyParcelApi.Tests
         [Test]
         public void GetShipmentLabel()
         {
-            var response = _client.GetShipmentLabel(new[] { 24681819, 24291447 }, "A4", new[] { 3, 4 });
+            var response = _client.GetShipmentLabel(new[] { 214280666 }, "A4", new[] { 3, 4 });
             response.Wait();
             ClassicAssert.IsNotNull(response);
             ClassicAssert.IsNotNull(response.Result);
