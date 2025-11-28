@@ -181,5 +181,109 @@ namespace MyParcelApi.Net.Models
                 }
             }
         }
-    }
+
+		[DataMember(Name = "receipt_code", EmitDefaultValue = false, IsRequired = false)]
+		private int? _receiptCode;
+		[IgnoreDataMember]
+		public bool? ReceiptCode
+		{
+			get
+			{
+				if (_receiptCode.HasValue)
+				{
+					return Convert.ToBoolean(_receiptCode);
+				}
+				return null;
+			}
+			set
+			{
+				if (value.HasValue)
+				{
+					_receiptCode = Convert.ToInt32(value);
+				}
+				else
+				{
+					_receiptCode = null;
+				}
+			}
+		}
+
+		[DataMember(Name = "saturday_delivery", EmitDefaultValue = false, IsRequired = false)]
+		private int? _saturdayDelivery;
+		[IgnoreDataMember]
+		public bool? SaturdayDelivery
+		{
+			get
+			{
+				if (_saturdayDelivery.HasValue)
+				{
+					return Convert.ToBoolean(_saturdayDelivery);
+				}
+				return null;
+			}
+			set
+			{
+				if (value.HasValue)
+				{
+					_saturdayDelivery = Convert.ToInt32(value);
+				}
+				else
+				{
+					_saturdayDelivery = null;
+				}
+			}
+		}
+
+		[DataMember(Name = "fresh_food", EmitDefaultValue = false, IsRequired = false)]
+		private int? _freshFood;
+		[IgnoreDataMember]
+		public bool? FreshFood
+		{
+			get
+			{
+				if (_freshFood.HasValue)
+				{
+					return Convert.ToBoolean(_freshFood);
+				}
+				return null;
+			}
+			set
+			{
+				if (value.HasValue)
+				{
+					_freshFood = Convert.ToInt32(value);
+				}
+				else
+				{
+					_freshFood = null;
+				}
+			}
+		}
+
+		[DataMember(Name = "frozen", EmitDefaultValue = false, IsRequired = false)]
+		private int? _frozen;
+		[IgnoreDataMember]
+		public bool? Frozen
+		{
+			get
+			{
+				if (_frozen.HasValue)
+				{
+					return Convert.ToBoolean(_frozen);
+				}
+				return null;
+			}
+			set
+			{
+				if (value.HasValue)
+				{
+					_frozen = Convert.ToInt32(value);
+				}
+				else
+				{
+					_frozen = null;
+				}
+			}
+		}
+	}
 }

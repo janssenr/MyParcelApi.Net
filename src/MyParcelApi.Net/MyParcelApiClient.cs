@@ -661,7 +661,38 @@ namespace MyParcelApi.Net
             return response.IsSuccessStatusCode;
         }
 
-        private async Task<T> HandleResponseError<T>(HttpResponseMessage response)
+		public async Task<DropOffPoint[]> GetDropOffPoints(string postalCode, string countryCode = null, Carrier? carier = null,
+            int? distance = null, double? latitude = null, double? longitude = null)
+		{
+			var urlBuilder = new StringBuilder("drop_off_points");
+
+			var parameters = new Dictionary<string, string>
+			{
+				{"postal_code", postalCode}
+			};
+			if (!string.IsNullOrEmpty(countryCode))
+				parameters.Add("cc", countryCode);
+			if (carier.HasValue)
+				parameters.Add("carrier", carier.ToString().ToLower());
+			if (distance.HasValue)
+				parameters.Add("distance", distance.Value.ToString(CultureInfo.InvariantCulture));
+			if (latitude.HasValue)
+				parameters.Add("latitude", latitude.Value.ToString(CultureInfo.InvariantCulture));
+			if (longitude.HasValue)
+				parameters.Add("longitude", longitude.Value.ToString(CultureInfo.InvariantCulture));
+			urlBuilder.Append(GetQueryString(parameters));
+
+			var response = await _httpClient.GetAsync(urlBuilder.ToString()).ConfigureAwait(false);
+			var jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+			if (response.IsSuccessStatusCode)
+			{
+				return JsonHelper.Deserialize<ApiWrapper>(jsonResult).Data.DropOffPoints;
+			}
+			return await HandleResponseError<DropOffPoint[]>(response);
+		}
+
+
+		private async Task<T> HandleResponseError<T>(HttpResponseMessage response)
         {
             string message = string.Empty;
             switch (response.StatusCode)

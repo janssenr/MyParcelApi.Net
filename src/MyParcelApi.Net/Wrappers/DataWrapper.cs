@@ -56,5 +56,8 @@ namespace MyParcelApi.Net.Wrappers
 
         [DataMember(Name = "pickup_locations", EmitDefaultValue = false)]
         public PickupLocation[] PickupLocations { get; set; }
-    }
+
+		[DataMember(Name = "drop_off_points", EmitDefaultValue = false)]
+		public DropOffPoint[] DropOffPoints { get; set; }
+	}
 }
